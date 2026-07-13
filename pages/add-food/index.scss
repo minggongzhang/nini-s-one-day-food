@@ -1,0 +1,234 @@
+@import 'styles/variables.scss';
+
+.page-container {
+  min-height: 100vh;
+  padding: 32rpx;
+  padding-bottom: 200rpx;
+}
+
+.form-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 32rpx;
+  box-shadow: $shadow-sm;
+}
+
+.form-item {
+  margin-bottom: 40rpx;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-label {
+  font-size: $font-base;
+  font-weight: bold;
+  color: $text-normal;
+  display: block;
+  margin-bottom: 16rpx;
+}
+
+.form-input {
+  width: 100%;
+  height: 80rpx;
+  background: $bg-white;
+  border: 2rpx solid $primary-border;
+  border-radius: $radius-sm;
+  padding: 0 24rpx;
+  font-size: $font-base;
+  color: $text-normal;
+  box-sizing: border-box;
+
+  &.price-input {
+    width: 200rpx;
+  }
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120rpx;
+  background: $bg-white;
+  border: 2rpx solid $primary-border;
+  border-radius: $radius-sm;
+  padding: 20rpx 24rpx;
+  font-size: $font-base;
+  color: $text-normal;
+  box-sizing: border-box;
+}
+
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12rpx;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 60rpx;
+  padding: 0 28rpx;
+  background: $bg-white;
+  border: 2rpx solid $primary-border;
+  border-radius: 30rpx;
+  font-size: $font-sm;
+  color: $text-light;
+  margin-right: 16rpx;
+  margin-bottom: 16rpx;
+  transition: all 0.2s;
+
+  &.active {
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+    border-color: $primary;
+    color: $text-white;
+  }
+}
+
+.custom-tag-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.custom-tag-input {
+  flex: 1;
+  height: 60rpx;
+  background: $bg-white;
+  border: 2rpx solid $primary-border;
+  border-radius: $radius-sm;
+  padding: 0 24rpx;
+  font-size: $font-sm;
+  color: $text-normal;
+  margin-right: 16rpx;
+}
+
+.custom-tag-add {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 28rpx;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-sm;
+  color: $text-white;
+  font-size: $font-sm;
+}
+
+.custom-tag-toggle {
+  font-size: $font-sm;
+  color: $primary;
+  padding: 8rpx 0;
+}
+
+.image-upload-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.image-preview {
+  position: relative;
+  width: 160rpx;
+  height: 160rpx;
+  margin-right: 20rpx;
+  margin-bottom: 20rpx;
+
+  .preview-img {
+    width: 100%;
+    height: 100%;
+    border-radius: $radius-sm;
+    border: 2rpx solid $primary-border;
+  }
+
+  .image-delete {
+    position: absolute;
+    top: -10rpx;
+    right: -10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    background: $primary;
+    color: $text-white;
+    border-radius: $radius-circle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $font-xs;
+    line-height: 40rpx;
+    text-align: center;
+  }
+}
+
+.image-add {
+  width: 160rpx;
+  height: 160rpx;
+  background: $bg-white;
+  border: 2rpx dashed $primary-border;
+  border-radius: $radius-sm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+
+  .add-icon {
+    font-size: 56rpx;
+    color: $primary-border;
+    line-height: 56rpx;
+  }
+
+  .add-text {
+    font-size: $font-xs;
+    color: $text-light;
+    margin-top: 8rpx;
+  }
+}
+
+.craving-row {
+  display: flex;
+  align-items: center;
+}
+
+.craving-stars {
+  display: flex;
+  margin-right: 24rpx;
+
+  .star {
+    font-size: 48rpx;
+    margin-right: 12rpx;
+    color: #ddd;
+
+    &.filled {
+      color: $primary;
+    }
+  }
+}
+
+.craving-text {
+  font-size: $font-sm;
+  color: $primary;
+  font-weight: bold;
+}
+
+.submit-btn {
+  position: fixed;
+  bottom: 40rpx;
+  left: 32rpx;
+  right: 32rpx;
+  height: 96rpx;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-md;
+  color: $text-white;
+  font-size: $font-lg;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $shadow-btn;
+  border: none;
+
+  &::after {
+    display: none;
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+  }
+}

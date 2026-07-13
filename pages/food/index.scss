@@ -54,17 +54,41 @@
     align-items: center;
     justify-content: center;
     font-size: 80rpx;
+
+    .food-img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .food-content {
     padding: 20rpx;
 
-    .food-name {
-      font-size: $font-base;
-      font-weight: bold;
-      color: $text-normal;
+    .food-name-row {
+      display: flex;
+      align-items: center;
       margin-bottom: 8rpx;
-      display: block;
+
+      .food-name {
+        font-size: $font-base;
+        font-weight: bold;
+        color: $text-normal;
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .custom-badge {
+        font-size: $font-xs;
+        color: $text-white;
+        background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+        padding: 4rpx 12rpx;
+        border-radius: 20rpx;
+        margin-left: 12rpx;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
     }
 
     .food-desc {
@@ -75,6 +99,22 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    .taste-tags {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 12rpx;
+
+      .taste-tag {
+        font-size: 20rpx;
+        color: $primary;
+        background: rgba(255, 107, 107, 0.1);
+        padding: 4rpx 12rpx;
+        border-radius: 16rpx;
+        margin-right: 8rpx;
+        margin-bottom: 4rpx;
+      }
     }
 
     .food-price {
@@ -174,6 +214,38 @@
     &::after {
       display: none;
     }
+  }
+}
+
+.fab-btn {
+  position: fixed;
+  right: 32rpx;
+  bottom: 220rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-circle;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $shadow-btn;
+  z-index: 50;
+
+  .fab-icon {
+    font-size: 48rpx;
+    color: $text-white;
+    line-height: 48rpx;
+  }
+
+  .fab-text {
+    font-size: 18rpx;
+    color: $text-white;
+    margin-top: 2rpx;
+  }
+
+  &:active {
+    transform: scale(0.92);
   }
 }
 

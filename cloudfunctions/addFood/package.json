@@ -1,0 +1,9 @@
+{
+  "name": "addFood",
+  "version": "1.0.0",
+  "description": "添加自定义菜品",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}
