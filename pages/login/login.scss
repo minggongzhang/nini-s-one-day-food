@@ -1,0 +1,227 @@
+@import 'styles/variables.scss';
+
+page {
+  height: 100vh;
+  background: $bg-gradient;
+  overflow: hidden;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 80rpx;
+}
+
+.logo-icon {
+  width: 160rpx;
+  height: 160rpx;
+  background: $bg-white-transparent;
+  border-radius: $radius-circle;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30rpx;
+  box-shadow: $shadow-md;
+}
+
+.heart {
+  font-size: 80rpx;
+}
+
+.title {
+  display: block;
+  font-size: $font-xl;
+  font-weight: bold;
+  color: $text-primary;
+  margin-bottom: 16rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: $font-base;
+  color: $text-secondary;
+}
+
+.login-form {
+  width: 100%;
+  max-width: 600rpx;
+}
+
+.avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.avatar-wrapper {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: $radius-circle;
+  overflow: hidden;
+  border: 6rpx solid $bg-white;
+  box-shadow: $shadow-md;
+}
+
+.avatar {
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-btn {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: $radius-circle;
+  background: $bg-white-transparent;
+  border: 6rpx solid $bg-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $shadow-md;
+  padding: 0;
+  margin: 0;
+
+  &::after {
+    display: none;
+  }
+}
+
+.avatar-icon {
+  font-size: 60rpx;
+}
+
+.avatar-tip {
+  font-size: $font-sm;
+  color: $text-secondary;
+  margin-top: 16rpx;
+}
+
+.input-section {
+  margin-bottom: 40rpx;
+}
+
+.nickname-input {
+  width: 100%;
+  height: 96rpx;
+  background: $bg-white-transparent;
+  border-radius: $radius-lg;
+  padding: 0 32rpx;
+  font-size: $font-base;
+  color: $text-normal;
+  box-shadow: $shadow-sm;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 96rpx;
+  background: $bg-white-transparent;
+  border-radius: $radius-lg;
+  padding: 0 32rpx;
+  box-shadow: $shadow-sm;
+}
+
+.phone-prefix {
+  font-size: $font-lg;
+  margin-right: 16rpx;
+}
+
+.phone-input {
+  flex: 1;
+  font-size: $font-base;
+  color: $text-normal;
+}
+
+.privacy-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding: 0 10rpx;
+}
+
+.checkbox {
+  width: 40rpx;
+  height: 40rpx;
+  border: 3rpx solid $primary-light;
+  border-radius: $radius-sm;
+  margin-right: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkbox-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-icon {
+  color: $text-white;
+  font-size: $font-xs;
+  font-weight: bold;
+}
+
+.privacy-text {
+  font-size: $font-sm;
+  color: $text-light;
+}
+
+.privacy-link {
+  font-size: $font-sm;
+  color: $primary;
+  margin: 0 8rpx;
+}
+
+.login-btn {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  box-shadow: $shadow-btn;
+  padding: 0;
+  margin: 0;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 6rpx 20rpx rgba(238, 90, 90, 0.3);
+  }
+}
+
+.login-text {
+  font-size: $font-lg;
+  font-weight: bold;
+  color: $text-white;
+}
+
+.footer {
+  position: absolute;
+  bottom: 40rpx;
+}
+
+.copyright {
+  font-size: $font-xs;
+  color: rgba(255, 255, 255, 0.8);
+}

@@ -1,0 +1,352 @@
+@import 'styles/variables.scss';
+
+.page-container {
+  min-height: 100vh;
+  padding: 32rpx;
+  padding-bottom: 200rpx;
+}
+
+.filter-tabs {
+  display: flex;
+  background: $bg-white-transparent;
+  border-radius: $radius-lg;
+  padding: 8rpx;
+  margin-bottom: 32rpx;
+  box-shadow: $shadow-sm;
+
+  .tab-item {
+    flex: 1;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-md;
+    font-size: $font-base;
+    color: $text-light;
+    transition: all 0.3s;
+
+    &.active {
+      background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+      color: $text-white;
+    }
+  }
+}
+
+.food-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24rpx;
+}
+
+.food-item {
+  width: calc(50% - 12rpx);
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+
+  .food-image {
+    width: 100%;
+    height: 200rpx;
+    background: $bg-gradient;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 80rpx;
+  }
+
+  .food-content {
+    padding: 20rpx;
+
+    .food-name {
+      font-size: $font-base;
+      font-weight: bold;
+      color: $text-normal;
+      margin-bottom: 8rpx;
+      display: block;
+    }
+
+    .food-desc {
+      font-size: $font-xs;
+      color: $text-light;
+      margin-bottom: 12rpx;
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .food-price {
+      font-size: $font-lg;
+      font-weight: bold;
+      color: $primary;
+      display: block;
+      margin-bottom: 16rpx;
+    }
+
+    .add-btn {
+      width: 100%;
+      height: 64rpx;
+      background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+      border-radius: $radius-md;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $text-white;
+      font-size: $font-sm;
+
+      &::after {
+        display: none;
+      }
+    }
+  }
+}
+
+.cart-bar {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  height: 100rpx;
+  background: $bg-white;
+  border-top: 1rpx solid $primary-border;
+  display: flex;
+  align-items: center;
+  padding: 0 32rpx;
+  box-shadow: 0 -4rpx 20rpx rgba(252, 182, 159, 0.2);
+
+  .cart-icon {
+    width: 80rpx;
+    height: 80rpx;
+    background: $bg-gradient;
+    border-radius: $radius-circle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    position: relative;
+    margin-right: 20rpx;
+
+    .cart-badge {
+      position: absolute;
+      top: -8rpx;
+      right: -8rpx;
+      width: 36rpx;
+      height: 36rpx;
+      background: $primary;
+      border-radius: $radius-circle;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $font-xs;
+      color: $text-white;
+    }
+  }
+
+  .cart-info {
+    flex: 1;
+
+    .cart-total {
+      font-size: $font-lg;
+      font-weight: bold;
+      color: $primary;
+    }
+
+    .cart-desc {
+      font-size: $font-xs;
+      color: $text-light;
+    }
+  }
+
+  .submit-btn {
+    width: 200rpx;
+    height: 72rpx;
+    background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-white;
+    font-size: $font-base;
+    font-weight: bold;
+
+    &::after {
+      display: none;
+    }
+  }
+}
+
+.empty-state,
+.loading-state {
+  text-align: center;
+  padding: 100rpx 0;
+
+  .empty-icon,
+  .loading-icon {
+    font-size: 120rpx;
+    margin-bottom: 32rpx;
+    display: block;
+  }
+
+  .empty-text,
+  .loading-text {
+    font-size: $font-base;
+    color: $text-light;
+  }
+}
+
+.cart-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  animation: fadeIn 0.3s ease;
+}
+
+.cart-popup {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  background: $bg-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  z-index: 101;
+  animation: slideUp 0.3s ease;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  border-bottom: 1rpx solid $primary-border;
+
+  .popup-title {
+    font-size: $font-lg;
+    font-weight: bold;
+    color: $text-normal;
+  }
+
+  .popup-clear {
+    font-size: $font-base;
+    color: $text-light;
+  }
+}
+
+.popup-content {
+  flex: 1;
+  padding: 24rpx 32rpx;
+  max-height: 400rpx;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 20rpx;
+  border-bottom: 1rpx solid $primary-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .cart-item-icon {
+    font-size: 60rpx;
+    margin-right: 20rpx;
+  }
+
+  .cart-item-info {
+    flex: 1;
+
+    .cart-item-name {
+      font-size: $font-base;
+      color: $text-normal;
+      display: block;
+      margin-bottom: 8rpx;
+    }
+
+    .cart-item-price {
+      font-size: $font-sm;
+      color: $primary;
+    }
+  }
+
+  .cart-item-actions {
+    display: flex;
+    align-items: center;
+    margin-right: 24rpx;
+
+    .qty-btn {
+      width: 48rpx;
+      height: 48rpx;
+      border: 1rpx solid $primary-border;
+      border-radius: $radius-sm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $font-base;
+      color: $text-normal;
+
+      &:active {
+        background: $bg-gradient;
+      }
+    }
+
+    .qty-num {
+      min-width: 48rpx;
+      text-align: center;
+      margin: 0 16rpx;
+      font-size: $font-base;
+      color: $text-normal;
+    }
+  }
+
+  .cart-item-delete {
+    font-size: $font-sm;
+    color: $text-light;
+    padding: 8rpx 16rpx;
+    margin-right: 16rpx;
+    border: 1rpx solid $primary-border;
+    border-radius: $radius-sm;
+
+    &:active {
+      background: rgba(255, 107, 107, 0.1);
+      color: $primary;
+    }
+  }
+}
+
+.popup-footer {
+  padding: 24rpx 32rpx;
+  border-top: 1rpx solid $primary-border;
+
+  .footer-total {
+    font-size: $font-lg;
+    font-weight: bold;
+    color: $primary;
+    float: right;
+  }
+}

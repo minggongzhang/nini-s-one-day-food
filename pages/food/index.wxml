@@ -1,0 +1,74 @@
+<!--pages/food/index.wxml-->
+<view class="page-container">
+  <view class="filter-tabs">
+    <view 
+      class="tab-item {{ activeCategory === item.name ? 'active' : '' }}" 
+      wx:for="{{ categories }}" 
+      wx:key="name"
+      data-category="{{ item.name }}"
+      bindtap="handleCategoryChange"
+    >
+      {{ item.name }}
+    </view>
+  </view>
+
+  <view class="food-list" wx:if="{{ !loading && foods.length > 0 }}">
+    <view class="food-item" wx:for="{{ foods }}" wx:key="_id">
+      <view class="food-image">{{ item.icon }}</view>
+      <view class="food-content">
+        <text class="food-name">{{ item.name }}</text>
+        <text class="food-desc">{{ item.description }}</text>
+        <text class="food-price">¥{{ item.price }}</text>
+        <button class="add-btn" data-food="{{ item }}" bindtap="handleAddToCart">加入购物车</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{ !loading && foods.length === 0 }}">
+    <text class="empty-icon">🍽️</text>
+    <text class="empty-text">暂无菜品，快去添加吧~</text>
+  </view>
+
+  <view class="loading-state" wx:if="{{ loading }}">
+    <text class="loading-icon">⏳</text>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>
+
+<view class="cart-bar" wx:if="{{ cartCount > 0 }}">
+  <view class="cart-icon" bindtap="toggleCartPopup">
+    🛒
+    <view class="cart-badge">{{ cartCount }}</view>
+  </view>
+  <view class="cart-info" bindtap="toggleCartPopup">
+    <text class="cart-total">¥{{ cartTotal }}</text>
+    <text class="cart-desc">已选{{ cartCount }}件商品</text>
+  </view>
+  <button class="submit-btn" bindtap="handleCheckout">去结算</button>
+</view>
+
+<view class="cart-mask" wx:if="{{ showCartPopup }}" bindtap="handleMaskTap"></view>
+<view class="cart-popup" wx:if="{{ showCartPopup }}">
+  <view class="popup-header">
+    <text class="popup-title">购物车</text>
+    <text class="popup-clear" bindtap="handleClearCart">清空</text>
+  </view>
+  <scroll-view class="popup-content" scroll-y>
+    <view class="cart-item" wx:for="{{ cart }}" wx:key="_id">
+      <view class="cart-item-icon">{{ item.icon }}</view>
+      <view class="cart-item-info">
+        <text class="cart-item-name">{{ item.name }}</text>
+        <text class="cart-item-price">¥{{ item.price }}</text>
+      </view>
+      <view class="cart-item-actions">
+        <view class="qty-btn" bindtap="handleDecreaseQty" data-id="{{ item._id }}">-</view>
+        <text class="qty-num">{{ item.quantity }}</text>
+        <view class="qty-btn" bindtap="handleIncreaseQty" data-id="{{ item._id }}">+</view>
+      </view>
+      <view class="cart-item-delete" bindtap="handleRemoveItem" data-id="{{ item._id }}">删除</view>
+    </view>
+  </scroll-view>
+  <view class="popup-footer">
+    <text class="footer-total">合计：¥{{ cartTotal }}</text>
+  </view>
+</view>

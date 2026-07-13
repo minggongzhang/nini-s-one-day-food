@@ -1,0 +1,58 @@
+@import 'styles/variables.scss';
+
+page {
+  background: $bg-gradient;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  color: $text-white;
+  border-radius: $radius-lg;
+  border: none;
+  box-shadow: $shadow-btn;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 6rpx 20rpx rgba(238, 90, 90, 0.3);
+  }
+}
+
+.card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  padding: 32rpx;
+}
+
+.text-primary {
+  color: $text-primary;
+}
+
+.text-secondary {
+  color: $text-secondary;
+}
+
+.text-normal {
+  color: $text-normal;
+}
+
+.text-light {
+  color: $text-light;
+}

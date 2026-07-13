@@ -1,0 +1,98 @@
+@import 'styles/variables.scss';
+
+.page-container {
+  min-height: 100vh;
+  padding: 32rpx;
+  padding-bottom: 180rpx;
+}
+
+.header-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 40rpx;
+  margin-bottom: 32rpx;
+  box-shadow: $shadow-sm;
+  text-align: center;
+
+  .greeting {
+    font-size: $font-lg;
+    font-weight: bold;
+    color: $text-primary;
+    margin-bottom: 16rpx;
+  }
+
+  .date {
+    font-size: $font-sm;
+    color: $text-light;
+  }
+}
+
+.section-title {
+  font-size: $font-lg;
+  font-weight: bold;
+  color: $text-primary;
+  margin-bottom: 24rpx;
+  padding-left: 8rpx;
+  border-left: 6rpx solid $primary;
+}
+
+.food-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: $shadow-sm;
+  display: flex;
+  align-items: center;
+
+  .food-icon {
+    width: 100rpx;
+    height: 100rpx;
+    background: $bg-gradient;
+    border-radius: $radius-md;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 24rpx;
+    font-size: 48rpx;
+  }
+
+  .food-info {
+    flex: 1;
+
+    .food-name {
+      font-size: $font-base;
+      font-weight: bold;
+      color: $text-normal;
+      margin-bottom: 8rpx;
+    }
+
+    .food-desc {
+      font-size: $font-sm;
+      color: $text-light;
+    }
+  }
+
+  .arrow {
+    font-size: $font-lg;
+    color: $text-light;
+  }
+}
+
+.empty-state,
+.loading-state {
+  text-align: center;
+  padding: 100rpx 0;
+
+  .empty-icon,
+  .loading-icon {
+    font-size: 120rpx;
+    margin-bottom: 32rpx;
+  }
+
+  .empty-text,
+  .loading-text {
+    font-size: $font-base;
+    color: $text-light;
+  }
+}

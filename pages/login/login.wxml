@@ -1,0 +1,45 @@
+<!--login.wxml-->
+<view class="login-container">
+  <view class="header">
+    <view class="logo-icon">
+      <text class="heart">💕</text>
+    </view>
+    <text class="title">妮妮的一日三餐</text>
+    <text class="subtitle">欢迎回来，我的宝贝 ❤️</text>
+  </view>
+
+  <view class="login-form">
+    <view class="avatar-section">
+      <view class="avatar-wrapper" wx:if="{{ avatarUrl }}">
+        <image class="avatar" src="{{ avatarUrl }}" mode="aspectFill"></image>
+      </view>
+      <button 
+        class="avatar-btn" 
+        wx:else 
+        open-type="chooseAvatar" 
+        bindchooseavatar="onChooseAvatar"
+      >
+        <text class="avatar-icon">👤</text>
+      </button>
+      <text class="avatar-tip">点击选择头像</text>
+    </view>
+
+    <view class="input-section">
+      <input 
+        class="nickname-input"
+        type="nickname"
+        placeholder="请输入昵称"
+        value="{{ nickname }}"
+        bindinput="onNicknameInput"
+      />
+    </view>
+
+    <button class="login-btn" bindtap="handleLogin">
+      <text class="login-text">开始享用美食</text>
+    </button>
+  </view>
+
+  <view class="footer">
+    <text class="copyright">Made with ❤️ for NiNi</text>
+  </view>
+</view>
