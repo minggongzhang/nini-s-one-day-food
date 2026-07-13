@@ -8,10 +8,20 @@ Page({
     cart: [],
     cartTotal: 0,
     cartCount: 0,
-    showCartPopup: false
+    showCartPopup: false,
+    userBalance: 0
   },
 
   onLoad() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo && userInfo.role === 'boyfriend') {
+      wx.showToast({ title: '男朋友不能点餐哦~', icon: 'none' })
+      setTimeout(() => {
+        wx.switchTab({ url: '/pages/orders/index' })
+      }, 1500)
+      return
+    }
+
     this.fetchCategories()
     this.loadCart()
   },
@@ -24,7 +34,10 @@ Page({
 
       if (res && res.result && res.result.success) {
         let categories = res.result.data || []
-        categories.unshift({ name: '全部' })
+        // 确保有"全部"在第一位，但避免重复
+        if (!categories.find(c => c.name === '全部')) {
+          categories.unshift({ name: '全部' })
+        }
         this.setData({
           categories
         })
@@ -32,14 +45,14 @@ Page({
       } else {
         console.error('获取分类失败:', res && res.result && res.result.error)
         this.setData({
-          categories: [{ name: '全部' }, { name: '主食' }, { name: '小吃' }, { name: '饮品' }]
+          categories: [{ name: '全部' }, { name: '主食' }, { name: '小吃' }, { name: '饮品' }, { name: '甜点' }, { name: '汤品' }]
         })
         this.fetchFoods()
       }
     } catch (err) {
       console.error('获取分类异常:', err)
       this.setData({
-        categories: [{ name: '全部' }, { name: '主食' }, { name: '小吃' }, { name: '饮品' }]
+        categories: [{ name: '全部' }, { name: '主食' }, { name: '小吃' }, { name: '饮品' }, { name: '甜点' }, { name: '汤品' }]
       })
       this.fetchFoods()
     }
@@ -47,6 +60,21 @@ Page({
 
   onShow() {
     this.loadCart()
+    this.loadUserBalance()
+    if (this.data.activeCategory) {
+      this.fetchFoods(this.data.activeCategory)
+    }
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().refreshTabs()
+      this.getTabBar().setSelected('/pages/food/index')
+    }
+  },
+
+  loadUserBalance() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      this.setData({ userBalance: userInfo.balance || 0 })
+    }
   },
 
   async fetchFoods(category = '全部') {
@@ -102,6 +130,12 @@ Page({
     this.fetchFoods(category)
   },
 
+  handleAddFood() {
+    wx.navigateTo({
+      url: '/pages/add-food/index'
+    })
+  },
+
   handleAddToCart(e) {
     const food = e.currentTarget.dataset.food
     const { cart } = this.data
@@ -139,9 +173,81 @@ Page({
   },
 
   handleCheckout() {
-    wx.showToast({
-      title: '结算功能开发中',
-      icon: 'none'
+    const { cart, cartTotal } = this.data
+    if (cart.length === 0) return
+
+    const userInfo = wx.getStorageSync('userInfo')
+    const openid = userInfo && (userInfo.openid || userInfo.openId)
+    if (!openid) {
+      wx.showToast({ title: '请先登录', icon: 'none' })
+      return
+    }
+
+    const balance = userInfo.balance || 0
+    if (balance < cartTotal) {
+      wx.showModal({
+        title: '余额不足',
+        content: `当前余额 ${balance} 妮妮币，需要 ${cartTotal} 妮妮币。去找男朋友充值吧~`,
+        showCancel: false,
+        confirmText: '知道了'
+      })
+      return
+    }
+
+    wx.showModal({
+      title: '确认下单',
+      content: `共 ${cart.length} 种菜品，合计 ${cartTotal} 妮妮币\n下单后等待男朋友接单制作`,
+      confirmText: '下单',
+      success: async (res) => {
+        if (!res.confirm) return
+
+        wx.showLoading({ title: '下单中...' })
+
+        try {
+          const result = await wx.cloud.callFunction({
+            name: 'createOrder',
+            data: {
+              items: cart,
+              totalAmount: cartTotal,
+              remark: ''
+            }
+          })
+
+          wx.hideLoading()
+
+          if (result.result && result.result.success) {
+            // 更新本地余额
+            const newBalance = result.result.newBalance
+            const updatedUserInfo = { ...userInfo, balance: newBalance }
+            wx.setStorageSync('userInfo', updatedUserInfo)
+
+            // 清空购物车
+            this.saveCart([])
+            this.loadCart()
+            this.setData({ showCartPopup: false })
+
+            wx.showModal({
+              title: '下单成功！',
+              content: `订单号：${result.result.orderNo}\n余额：${newBalance} 妮妮币\n等待男朋友接单~`,
+              showCancel: false,
+              confirmText: '查看订单',
+              success: () => {
+                wx.switchTab({ url: '/pages/orders/index' })
+              }
+            })
+          } else {
+            wx.showToast({
+              title: result.result.error || '下单失败',
+              icon: 'none',
+              duration: 2500
+            })
+          }
+        } catch (err) {
+          wx.hideLoading()
+          console.error('下单失败:', err)
+          wx.showToast({ title: '网络异常，请重试', icon: 'none' })
+        }
+      }
     })
   },
 

@@ -83,6 +83,7 @@
     </view>
   </scroll-view>
   <view class="popup-footer">
+    <view class="footer-balance">余额：{{ userBalance }} 妮妮币</view>
     <text class="footer-total">合计：¥{{ cartTotal }}</text>
   </view>
 </view>

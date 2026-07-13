@@ -1,0 +1,103 @@
+<!--pages/orders/index.wxml-->
+<view class="page-container">
+  <!-- 角色提示 -->
+  <view class="role-banner" wx:if="{{ role }}">
+    <text class="role-text">{{ role === 'boyfriend' ? '🤴 男朋友模式 — 等待妮妮下单' : '👸 女朋友模式 — 查看你的订单' }}</text>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="filter-tabs">
+    <view
+      class="tab-item {{ activeStatus === item.value ? 'active' : '' }} {{ item.value === 'all' || item.value === 'completed' ? 'has-inline-count' : '' }}"
+      wx:for="{{ statusTabs }}"
+      wx:key="value"
+      data-status="{{ item.value }}"
+      bindtap="onStatusChange"
+    >
+      <text class="tab-label">{{ item.label }}</text>
+      <text class="tab-count-inline" wx:if="{{ item.value === 'all' || item.value === 'completed' }}">({{ item.count }})</text>
+      <text class="tab-badge" wx:if="{{ (item.value === 'pending' || item.value === 'processing') && item.count > 0 }}">{{ item.count }}</text>
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list" wx:if="{{ !loading && orders.length > 0 }}">
+    <view class="order-card" wx:for="{{ orders }}" wx:key="_id">
+      <!-- 订单头部 -->
+      <view class="order-header">
+        <text class="order-no">单号：{{ item.orderNo }}</text>
+        <text class="order-status status-{{ item.status }}">{{ statusMap[item.status] }}</text>
+      </view>
+
+      <!-- 下单用户（男朋友视角） -->
+      <view class="order-user" wx:if="{{ role === 'boyfriend' }}">
+        <image class="user-avatar" src="{{ item.userAvatar }}" mode="aspectFill" wx:if="{{ item.userAvatar }}"></image>
+        <text class="user-name">{{ item.userNickname || '妮妮' }} 下单</text>
+      </view>
+
+      <!-- 菜品列表 -->
+      <view class="order-items">
+        <view class="order-item" wx:for="{{ item.items }}" wx:for-item="food" wx:key="name">
+          <view class="item-icon">
+            <image wx:if="{{ food.imageUrl }}" src="{{ food.imageUrl }}" mode="aspectFill" class="item-img" />
+            <text wx:else>{{ food.icon }}</text>
+          </view>
+          <view class="item-info">
+            <text class="item-name">{{ food.name }}</text>
+            <view class="item-tags" wx:if="{{ food.tasteTags && food.tasteTags.length > 0 }}">
+              <text class="item-tag" wx:for="{{ food.tasteTags }}" wx:for-item="tag" wx:key="*this">{{ tag }}</text>
+            </view>
+            <text class="item-req" wx:if="{{ food.requirements }}">{{ food.requirements }}</text>
+          </view>
+          <view class="item-right">
+            <text class="item-price">¥{{ food.price }}</text>
+            <text class="item-qty">x{{ food.quantity }}</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- 备注 -->
+      <view class="order-remark" wx:if="{{ item.remark }}">
+        <text class="remark-label">备注：</text>
+        <text class="remark-text">{{ item.remark }}</text>
+      </view>
+
+      <!-- 订单底部 -->
+      <view class="order-footer">
+        <text class="order-time">{{ item.formattedTime }}</text>
+        <view class="order-total">
+          <text class="total-label">合计</text>
+          <text class="total-amount">{{ item.totalAmount }} 妮妮币</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮（仅男朋友可见） -->
+      <view class="order-actions" wx:if="{{ role === 'boyfriend' }}">
+        <view class="action-btn reject" wx:if="{{ item.status === 'pending' }}" data-id="{{ item._id }}" data-action="rejected" bindtap="onHandleOrder">拒绝</view>
+        <view class="action-btn accept" wx:if="{{ item.status === 'pending' }}" data-id="{{ item._id }}" data-action="accepted" bindtap="onHandleOrder">接单</view>
+        <view class="action-btn prepare" wx:if="{{ item.status === 'accepted' }}" data-id="{{ item._id }}" data-action="preparing" bindtap="onHandleOrder">开始制作</view>
+        <view class="action-btn complete" wx:if="{{ item.status === 'preparing' }}" data-id="{{ item._id }}" data-action="completed" bindtap="onHandleOrder">制作完成</view>
+      </view>
+
+      <!-- 女朋友视角状态提示 -->
+      <view class="order-status-tip" wx:if="{{ role === 'girlfriend' && item.status !== 'completed' && item.status !== 'rejected' }}">
+        {{ statusTip[item.status] }}
+      </view>
+      <view class="order-status-tip rejected" wx:if="{{ role === 'girlfriend' && item.status === 'rejected' }}">
+        男朋友拒绝了订单，{{ item.totalAmount }} 妮妮币已退回
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{ !loading && orders.length === 0 }}">
+    <text class="empty-icon">{{ activeStatus === 'all' ? '📋' : '✅' }}</text>
+    <text class="empty-text">{{ activeStatus === 'all' ? '还没有订单哦' : '暂无相关订单' }}</text>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading-state" wx:if="{{ loading }}">
+    <text class="loading-icon">⏳</text>
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>

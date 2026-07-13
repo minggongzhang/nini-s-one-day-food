@@ -2,7 +2,10 @@
   "pages": [
     "pages/login/login",
     "pages/index/index",
-    "pages/food/index"
+    "pages/food/index",
+    "pages/orders/index",
+    "pages/profile/index",
+    "pages/add-food/index"
     ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -14,6 +17,7 @@
     "selectedColor": "#ff6b6b",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
+    "custom": true,
     "list": [
       {
         "pagePath": "pages/index/index",
@@ -26,6 +30,18 @@
         "text": "点餐",
         "iconPath": "images/tabbar/food.png",
         "selectedIconPath": "images/tabbar/food-active.png"
+      },
+      {
+        "pagePath": "pages/orders/index",
+        "text": "订单",
+        "iconPath": "images/tabbar/orders.png",
+        "selectedIconPath": "images/tabbar/orders-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "images/tabbar/profile.png",
+        "selectedIconPath": "images/tabbar/profile-active.png"
       }
     ]
   },

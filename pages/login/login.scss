@@ -108,6 +108,63 @@ page {
   margin-bottom: 40rpx;
 }
 
+.role-section {
+  margin-bottom: 40rpx;
+
+  .role-label {
+    font-size: $font-base;
+    font-weight: bold;
+    color: $text-normal;
+    display: block;
+    margin-bottom: 20rpx;
+  }
+
+  .role-options {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .role-card {
+    width: 45%;
+    background: $bg-white-transparent;
+    border: 3rpx solid transparent;
+    border-radius: $radius-md;
+    padding: 32rpx 20rpx;
+    margin: 0 8rpx;
+    text-align: center;
+    transition: all 0.3s;
+
+    .role-emoji {
+      font-size: 64rpx;
+      display: block;
+      margin-bottom: 12rpx;
+    }
+
+    .role-name {
+      font-size: $font-base;
+      font-weight: bold;
+      color: $text-normal;
+      display: block;
+      margin-bottom: 8rpx;
+    }
+
+    .role-desc {
+      font-size: $font-xs;
+      color: $text-light;
+    }
+
+    &.active {
+      border-color: $primary;
+      background: rgba(255, 107, 107, 0.1);
+      box-shadow: $shadow-sm;
+
+      .role-name {
+        color: $primary;
+      }
+    }
+  }
+}
+
 .nickname-input {
   width: 100%;
   height: 96rpx;
@@ -217,8 +274,9 @@ page {
 }
 
 .footer {
-  position: absolute;
+  // position: absolute;
   bottom: 40rpx;
+  margin-bottom: 28rpx;
 }
 
 .copyright {

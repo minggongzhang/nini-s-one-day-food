@@ -416,6 +416,12 @@
   padding: 24rpx 32rpx;
   border-top: 1rpx solid $primary-border;
 
+  .footer-balance {
+    font-size: $font-xs;
+    color: $text-light;
+    margin-bottom: 8rpx;
+  }
+
   .footer-total {
     font-size: $font-lg;
     font-weight: bold;

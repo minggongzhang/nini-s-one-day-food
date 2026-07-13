@@ -13,6 +13,14 @@ Page({
     this.fetchRecommendations()
   },
 
+  onShow() {
+    this.fetchUserInfo()
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().refreshTabs()
+      this.getTabBar().setSelected('/pages/index/index')
+    }
+  },
+
   fetchUserInfo() {
     const userInfo = app.globalData.userInfo
     if (userInfo && userInfo.nickname) {

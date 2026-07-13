@@ -174,11 +174,11 @@ Page({
     this.setData({ submitting: true })
 
     try {
-      let openid = app.globalData.openId
+      let openid = app.globalData.openid
       if (!openid) {
         const loginRes = await wx.cloud.callFunction({ name: 'login' })
         openid = loginRes.result.openid
-        app.globalData.openId = openid
+        app.globalData.openid = openid
       }
 
       let imageFileIDs = []

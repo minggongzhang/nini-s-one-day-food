@@ -5,7 +5,7 @@
       <text class="heart">💕</text>
     </view>
     <text class="title">妮妮的一日三餐</text>
-    <text class="subtitle">欢迎回来，我的宝贝 ❤️</text>
+    <text class="subtitle">选择角色，开始你们的美食之旅 ❤️</text>
   </view>
 
   <view class="login-form">
@@ -34,8 +34,32 @@
       />
     </view>
 
-    <button class="login-btn" bindtap="handleLogin">
-      <text class="login-text">开始享用美食</text>
+    <view class="role-section">
+      <text class="role-label">选择你的角色</text>
+      <view class="role-options">
+        <view 
+          class="role-card {{ selectedRole === 'girlfriend' ? 'active' : '' }}"
+          bindtap="onRoleSelect"
+          data-role="girlfriend"
+        >
+          <text class="role-emoji">👸</text>
+          <text class="role-name">女朋友</text>
+          <text class="role-desc">点菜下单</text>
+        </view>
+        <view 
+          class="role-card {{ selectedRole === 'boyfriend' ? 'active' : '' }}"
+          bindtap="onRoleSelect"
+          data-role="boyfriend"
+        >
+          <text class="role-emoji">🤴</text>
+          <text class="role-name">男朋友</text>
+          <text class="role-desc">接单制作</text>
+        </view>
+      </view>
+    </view>
+
+    <button class="login-btn" bindtap="handleLogin" loading="{{ logging }}" disabled="{{ logging }}">
+      <text class="login-text">{{ logging ? '登录中...' : '开始享用美食' }}</text>
     </button>
   </view>
 

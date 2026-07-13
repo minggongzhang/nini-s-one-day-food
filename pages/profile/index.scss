@@ -1,0 +1,336 @@
+@import 'styles/variables.scss';
+
+.page-container {
+  min-height: 100vh;
+  padding: 32rpx;
+  padding-bottom: 120rpx;
+}
+
+.user-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  box-shadow: $shadow-sm;
+
+  .user-row {
+    display: flex;
+    align-items: center;
+  }
+
+  .user-avatar {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: $radius-circle;
+    border: 4rpx solid $bg-white;
+    box-shadow: $shadow-sm;
+  }
+
+  .user-avatar-placeholder {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: $radius-circle;
+    background: $bg-gradient;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .placeholder-icon {
+      font-size: 56rpx;
+    }
+  }
+
+  .user-info {
+    flex: 1;
+    margin-left: 28rpx;
+  }
+
+  .user-name-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12rpx;
+  }
+
+  .user-name {
+    font-size: $font-lg;
+    font-weight: bold;
+    color: $text-normal;
+  }
+
+  .role-badge {
+    font-size: $font-xs;
+    padding: 4rpx 16rpx;
+    border-radius: 20rpx;
+    margin-left: 16rpx;
+
+    &.role-boy {
+      background: rgba(64, 158, 255, 0.15);
+      color: #409eff;
+    }
+
+    &.role-girl {
+      background: rgba(255, 107, 107, 0.15);
+      color: $primary;
+    }
+  }
+
+  .user-id {
+    font-size: $font-xs;
+    color: $text-light;
+  }
+}
+
+.balance-card {
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: $radius-md;
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: $shadow-md;
+
+  .balance-info {
+    .balance-label {
+      font-size: $font-sm;
+      color: rgba(255, 255, 255, 0.8);
+      display: block;
+      margin-bottom: 8rpx;
+    }
+
+    .balance-amount {
+      font-size: 56rpx;
+      font-weight: bold;
+      color: $text-white;
+    }
+  }
+
+  .balance-actions {
+    .recharge-btn {
+      background: rgba(255, 255, 255, 0.25);
+      border-radius: 30rpx;
+      padding: 16rpx 36rpx;
+      color: $text-white;
+      font-size: $font-base;
+      font-weight: bold;
+
+      &:active {
+        background: rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    .balance-tip {
+      font-size: $font-xs;
+      color: rgba(255, 255, 255, 0.8);
+    }
+  }
+}
+
+.stats-row {
+  display: flex;
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 32rpx 0;
+  margin-bottom: 24rpx;
+  box-shadow: $shadow-sm;
+
+  .stat-item {
+    flex: 1;
+    text-align: center;
+
+    .stat-num {
+      font-size: $font-xl;
+      font-weight: bold;
+      color: $text-primary;
+      display: block;
+      margin-bottom: 8rpx;
+    }
+
+    .stat-label {
+      font-size: $font-xs;
+      color: $text-light;
+    }
+  }
+}
+
+.menu-list {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow-sm;
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 32rpx;
+    border-bottom: 1rpx solid $primary-border;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:active {
+      background: rgba(255, 107, 107, 0.05);
+    }
+
+    .menu-icon {
+      font-size: 40rpx;
+      margin-right: 24rpx;
+    }
+
+    .menu-text {
+      flex: 1;
+      font-size: $font-base;
+      color: $text-normal;
+    }
+
+    .menu-arrow {
+      font-size: $font-lg;
+      color: $text-light;
+    }
+  }
+}
+
+/* 充值弹窗 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+}
+
+.recharge-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $bg-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding: 40rpx 32rpx;
+  z-index: 201;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-title {
+  font-size: $font-lg;
+  font-weight: bold;
+  color: $text-normal;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+
+.recharge-target {
+  display: flex;
+  margin-bottom: 24rpx;
+  gap: 16rpx;
+
+  .target-chip {
+    flex: 1;
+    height: 72rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $bg-white;
+    border: 2rpx solid $primary-border;
+    border-radius: $radius-sm;
+    font-size: $font-sm;
+    color: $text-light;
+
+    &.active {
+      background: rgba(255, 107, 107, 0.1);
+      border-color: $primary;
+      color: $primary;
+      font-weight: bold;
+    }
+  }
+}
+
+.recharge-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 24rpx;
+
+  .amount-chip {
+    width: 22%;
+    margin-right: 4%;
+    margin-bottom: 16rpx;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $bg-white;
+    border: 2rpx solid $primary-border;
+    border-radius: $radius-sm;
+    font-size: $font-base;
+    color: $text-normal;
+
+    &:nth-child(4n) {
+      margin-right: 0;
+    }
+
+    &.active {
+      background: rgba(255, 107, 107, 0.1);
+      border-color: $primary;
+      color: $primary;
+      font-weight: bold;
+    }
+  }
+}
+
+.custom-amount-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32rpx;
+
+  .custom-amount-input {
+    flex: 1;
+    height: 80rpx;
+    background: $bg-white;
+    border: 2rpx solid $primary-border;
+    border-radius: $radius-sm;
+    padding: 0 24rpx;
+    font-size: $font-base;
+    color: $text-normal;
+    margin-right: 16rpx;
+  }
+
+  .amount-unit {
+    font-size: $font-sm;
+    color: $text-light;
+  }
+}
+
+.modal-btns {
+  display: flex;
+
+  .modal-btn {
+    flex: 1;
+    height: 88rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: $radius-md;
+    font-size: $font-base;
+    font-weight: bold;
+
+    &.cancel {
+      background: $bg-white;
+      border: 2rpx solid $primary-border;
+      color: $text-light;
+      margin-right: 20rpx;
+    }
+
+    &.confirm {
+      background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+      color: $text-white;
+    }
+  }
+}
