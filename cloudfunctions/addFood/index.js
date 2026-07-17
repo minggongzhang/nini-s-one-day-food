@@ -1,14 +1,14 @@
-const cloud = require('wx-server-sdk')
+const cloud = require("wx-server-sdk");
 
 cloud.init({
-  env: cloud.DYNAMIC_CURRENT_ENV
-})
+  env: cloud.DYNAMIC_CURRENT_ENV,
+});
 
-const db = cloud.database()
+const db = cloud.database();
 
 exports.main = async (event, context) => {
-  const wxContext = cloud.getWXContext()
-  const openid = wxContext.OPENID
+  const wxContext = cloud.getWXContext();
+  const openid = wxContext.OPENID;
 
   const {
     name,
@@ -21,56 +21,56 @@ exports.main = async (event, context) => {
     imageUrl,
     images,
     cravingLevel,
-    isCustom
-  } = event
+    isCustom,
+  } = event;
 
   if (!name || !name.trim()) {
-    return { success: false, error: '菜品名称不能为空' }
+    return { success: false, error: "菜品名称不能为空" };
   }
 
   if (!category) {
-    return { success: false, error: '请选择分类' }
+    return { success: false, error: "请选择分类" };
   }
 
   try {
-    const countResult = await db.collection('foods').count()
-    const sort = countResult.total + 1
+    const countResult = await db.collection("foods").count();
+    const sort = countResult.total + 1;
 
     const foodData = {
       name: name.trim(),
       category,
-      icon: icon || '🍽️',
-      description: description || '',
-      price: typeof price === 'number' ? price : 0,
+      icon: icon || "/images/emoji/plate.png",
+      description: description || "",
+      price: typeof price === "number" ? price : 0,
       tasteTags: Array.isArray(tasteTags) ? tasteTags : [],
-      requirements: requirements || '',
-      imageUrl: imageUrl || '',
+      requirements: requirements || "",
+      imageUrl: imageUrl || "",
       images: Array.isArray(images) ? images : [],
       cravingLevel: cravingLevel || 3,
       isCustom: isCustom !== undefined ? isCustom : true,
       createdBy: openid,
       sort,
       isRecommended: false,
-      createdAt: db.serverDate()
-    }
+      createdAt: db.serverDate(),
+    };
 
-    const result = await db.collection('foods').add({
-      data: foodData
-    })
+    const result = await db.collection("foods").add({
+      data: foodData,
+    });
 
-    console.log('addFood success, _id:', result._id)
+    console.log("addFood success, _id:", result._id);
 
     return {
       success: true,
       _id: result._id,
-      data: foodData
-    }
+      data: foodData,
+    };
   } catch (err) {
-    console.error('addFood error:', err)
+    console.error("addFood error:", err);
     return {
       success: false,
       error: err.message || JSON.stringify(err),
-      errCode: err.errCode
-    }
+      errCode: err.errCode,
+    };
   }
-}
+};

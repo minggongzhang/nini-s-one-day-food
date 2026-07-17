@@ -1,5 +1,6 @@
 // pages/add-food/index.js
 const app = getApp()
+const { getIconPath } = require('../../utils/emojiIcons')
 
 const CRAVING_TEXTS = {
   1: '还行吧',
@@ -10,11 +11,11 @@ const CRAVING_TEXTS = {
 }
 
 const DEFAULT_EMOJIS = {
-  '主食': '🍚',
-  '小吃': '🍟',
-  '饮品': '🥤',
-  '甜点': '🍰',
-  '汤品': '🍲'
+  '主食': '/images/emoji/rice.png',
+  '小吃': '/images/emoji/fries.png',
+  '饮品': '/images/emoji/drink.png',
+  '甜点': '/images/emoji/cake.png',
+  '汤品': '/images/emoji/pot.png'
 }
 
 Page({
@@ -22,12 +23,14 @@ Page({
     name: '',
     selectedCategory: '',
     categoryOptions: [
-      { name: '主食', icon: '🍚' },
-      { name: '小吃', icon: '🍟' },
-      { name: '饮品', icon: '🥤' },
-      { name: '甜点', icon: '🍰' },
-      { name: '汤品', icon: '🍲' }
+      { name: '主食', icon: '🍚', iconPath: '/images/emoji/rice.png' },
+      { name: '小吃', icon: '🍟', iconPath: '/images/emoji/fries.png' },
+      { name: '饮品', icon: '🥤', iconPath: '/images/emoji/drink.png' },
+      { name: '甜点', icon: '🍰', iconPath: '/images/emoji/cake.png' },
+      { name: '汤品', icon: '🍲', iconPath: '/images/emoji/pot.png' }
     ],
+    showCustomCategory: false,
+    customCategoryFocus: false,
     tasteTags: [
       { name: '不辣', checked: false },
       { name: '微辣', checked: false },
@@ -43,7 +46,7 @@ Page({
       { name: '不要葱', checked: false }
     ],
     showCustomTagInput: false,
-    customTagValue: '',
+    tagInputVisible: true,
     requirements: '',
     images: [],
     cravingLevel: 3,
@@ -52,17 +55,45 @@ Page({
     submitting: false
   },
 
+  onLoad() {
+    const userInfo = wx.getStorageSync('userInfo')
+    const nickname = (userInfo && userInfo.nickname) || '我'
+    wx.setNavigationBarTitle({ title: `${nickname}想吃...` })
+  },
+
   onNameInput(e) {
     this.setData({ name: e.detail.value })
   },
 
+  // ========== 分类选择 ==========
   onCategoryTap(e) {
     const name = e.currentTarget.dataset.name
     this.setData({
-      selectedCategory: this.data.selectedCategory === name ? '' : name
+      selectedCategory: this.data.selectedCategory === name ? '' : name,
+      showCustomCategory: false,
+      customCategoryFocus: false
     })
+    this._customCategoryValue = ''
   },
 
+  onToggleCustomCategory() {
+    const willShow = !this.data.showCustomCategory
+    this.setData({
+      showCustomCategory: willShow,
+      customCategoryFocus: willShow,
+      selectedCategory: ''
+    })
+    this._customCategoryValue = ''
+  },
+
+  onCustomCategoryInput(e) {
+    const val = e.detail.value
+    this._customCategoryValue = val
+    // 实时同步到 selectedCategory，用户输入的同时就能选中
+    this.setData({ selectedCategory: val.trim() })
+  },
+
+  // ========== 口味标签 ==========
   onTasteTagTap(e) {
     const index = e.currentTarget.dataset.index
     const key = `tasteTags[${index}].checked`
@@ -73,40 +104,59 @@ Page({
 
   onToggleCustomTag() {
     this.setData({
-      showCustomTagInput: !this.data.showCustomTagInput,
-      customTagValue: ''
+      showCustomTagInput: !this.data.showCustomTagInput
     })
+    this._customTagValue = ''
   },
 
+  // 非受控输入：不绑定 value，避免 setData 竞态导致字符被吞
   onCustomTagInput(e) {
-    this.setData({ customTagValue: e.detail.value })
+    this._customTagValue = e.detail.value
   },
 
   onAddCustomTag() {
-    const val = this.data.customTagValue.trim()
+    const val = (this._customTagValue || '').trim()
     if (!val) {
       wx.showToast({ title: '请输入标签名', icon: 'none' })
       return
     }
+    if (val.length > 8) {
+      wx.showToast({ title: '标签最多8个字', icon: 'none' })
+      return
+    }
+
     const tags = this.data.tasteTags.concat()
     const existing = tags.find(t => t.name === val)
     if (existing) {
+      if (existing.checked) {
+        wx.showToast({ title: '标签已选中', icon: 'none' })
+        return
+      }
       existing.checked = true
     } else {
       tags.push({ name: val, checked: true })
     }
+
+    // 清空输入框：通过 wx:if 切换销毁重建，绕开受控输入的限制
+    this._customTagValue = ''
     this.setData({
       tasteTags: tags,
-      customTagValue: '',
-      showCustomTagInput: false
+      tagInputVisible: false
     })
-    wx.showToast({ title: '已添加', icon: 'success' })
+    // 下一帧重建输入框，保持焦点连续
+    setTimeout(() => {
+      this.setData({ tagInputVisible: true })
+    }, 30)
+
+    wx.showToast({ title: '已添加', icon: 'success', duration: 800 })
   },
 
+  // ========== 特殊要求 ==========
   onRequirementsInput(e) {
     this.setData({ requirements: e.detail.value })
   },
 
+  // ========== 图片上传 ==========
   onChooseImage() {
     const remaining = 3 - this.data.images.length
     if (remaining <= 0) return
@@ -132,6 +182,7 @@ Page({
     this.setData({ images })
   },
 
+  // ========== 想吃程度 ==========
   onCravingTap(e) {
     const level = e.currentTarget.dataset.level
     this.setData({
@@ -140,10 +191,12 @@ Page({
     })
   },
 
+  // ========== 价格 ==========
   onPriceInput(e) {
     this.setData({ price: e.detail.value })
   },
 
+  // ========== 图片上传到云存储 ==========
   async uploadImages(openid) {
     const fileIDs = []
     for (let i = 0; i < this.data.images.length; i++) {
@@ -159,6 +212,7 @@ Page({
     return fileIDs
   },
 
+  // ========== 提交 ==========
   async onSubmit() {
     const { name, selectedCategory, requirements, cravingLevel, price, tasteTags } = this.data
 
@@ -166,8 +220,8 @@ Page({
       wx.showToast({ title: '请输入菜品名称', icon: 'none' })
       return
     }
-    if (!selectedCategory) {
-      wx.showToast({ title: '请选择分类', icon: 'none' })
+    if (!selectedCategory || !selectedCategory.trim()) {
+      wx.showToast({ title: '请选择或输入分类', icon: 'none' })
       return
     }
 
@@ -187,14 +241,15 @@ Page({
       }
 
       const selectedTags = tasteTags.filter(t => t.checked).map(t => t.name)
-      const icon = DEFAULT_EMOJIS[selectedCategory] || '🍽️'
+      const categoryStr = selectedCategory.trim()
+      const icon = DEFAULT_EMOJIS[categoryStr] || '/images/emoji/plate.png'
       const priceValue = price ? parseFloat(price) : 0
 
       const res = await wx.cloud.callFunction({
         name: 'addFood',
         data: {
           name: name.trim(),
-          category: selectedCategory,
+          category: categoryStr,
           icon,
           description: requirements.trim(),
           price: priceValue,

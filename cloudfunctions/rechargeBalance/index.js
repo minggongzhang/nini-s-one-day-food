@@ -11,7 +11,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
 
-  const { targetOpenid, amount, targetRole } = event
+  const { amount } = event
 
   if (!amount || amount <= 0) {
     return { success: false, error: '充值金额必须大于 0' }
@@ -32,29 +32,23 @@ exports.main = async (event, context) => {
       return { success: false, error: '只有男朋友可以充值' }
     }
 
-    // 2. 确定充值目标
-    let targetQuery = {}
-    if (targetOpenid) {
-      targetQuery.openid = targetOpenid
-    } else if (targetRole === 'girlfriend') {
-      // 自动找到女朋友账户
-      targetQuery.role = 'girlfriend'
-    } else {
-      // 默认给自己充值
-      targetQuery.openid = openid
+    // 2. 检查是否已绑定女友
+    if (!operator.isBound || !operator.partnerOpenid) {
+      return { success: false, error: '请先绑定女友后再充值' }
     }
 
+    // 3. 查找绑定的女友
     const targetResult = await db.collection('users')
-      .where(targetQuery)
+      .where({ openid: operator.partnerOpenid })
       .get()
 
     if (!targetResult.data || targetResult.data.length === 0) {
-      return { success: false, error: '目标用户不存在' }
+      return { success: false, error: '找不到绑定的女友' }
     }
 
     const target = targetResult.data[0]
 
-    // 3. 增加余额
+    // 4. 增加余额
     await db.collection('users')
       .doc(target._id)
       .update({

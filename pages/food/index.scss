@@ -3,27 +3,36 @@
 .page-container {
   min-height: 100vh;
   padding: 32rpx;
-  padding-bottom: 200rpx;
+  padding-bottom: calc(200rpx + env(safe-area-inset-bottom));
 }
 
 .filter-tabs {
-  display: flex;
+  position: fixed;
+  top: 10rpx;
+  left: 0;
+  z-index: 999;
   background: $bg-white-transparent;
   border-radius: $radius-lg;
   padding: 8rpx;
-  margin-bottom: 32rpx;
+  margin: 0 auto;
   box-shadow: $shadow-sm;
+  white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
 
   .tab-item {
-    flex: 1;
-    height: 72rpx;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    height: 72rpx;
+    min-width: 120rpx;
+    padding: 0 32rpx;
     border-radius: $radius-md;
     font-size: $font-base;
     color: $text-light;
     transition: all 0.3s;
+    white-space: nowrap;
+    margin-right: 8rpx;
 
     &.active {
       background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
@@ -36,6 +45,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  padding-top: 80rpx;
 }
 
 .food-item {
@@ -54,6 +64,11 @@
     align-items: center;
     justify-content: center;
     font-size: 80rpx;
+
+    .food-icon {
+      width: 80rpx;
+      height: 80rpx;
+    }
 
     .food-img {
       width: 100%;
@@ -145,7 +160,7 @@
 
 .cart-bar {
   position: fixed;
-  bottom: 100rpx;
+  bottom: calc(100rpx + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
   height: 100rpx;
@@ -155,6 +170,7 @@
   align-items: center;
   padding: 0 32rpx;
   box-shadow: 0 -4rpx 20rpx rgba(252, 182, 159, 0.2);
+  z-index: 100;
 
   .cart-icon {
     width: 80rpx;
@@ -164,9 +180,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 40rpx;
     position: relative;
     margin-right: 20rpx;
+
+    .cart-icon-img {
+      width: 40rpx;
+      height: 40rpx;
+    }
 
     .cart-badge {
       position: absolute;
@@ -220,7 +240,7 @@
 .fab-btn {
   position: fixed;
   right: 32rpx;
-  bottom: 220rpx;
+  bottom: calc(220rpx + env(safe-area-inset-bottom));
   width: 120rpx;
   height: 120rpx;
   background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
@@ -230,7 +250,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: $shadow-btn;
-  z-index: 50;
+  z-index: 100;
 
   .fab-icon {
     font-size: 48rpx;
@@ -256,7 +276,8 @@
 
   .empty-icon,
   .loading-icon {
-    font-size: 120rpx;
+    width: 120rpx;
+    height: 120rpx;
     margin-bottom: 32rpx;
     display: block;
   }
@@ -281,7 +302,7 @@
 
 .cart-popup {
   position: fixed;
-  bottom: 100rpx;
+  bottom: calc(100rpx + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
   background: $bg-white;
@@ -347,8 +368,12 @@
   }
 
   .cart-item-icon {
-    font-size: 60rpx;
     margin-right: 20rpx;
+
+    .cart-item-icon-img {
+      width: 60rpx;
+      height: 60rpx;
+    }
   }
 
   .cart-item-info {

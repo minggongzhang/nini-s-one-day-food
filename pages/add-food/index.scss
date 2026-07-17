@@ -77,11 +77,33 @@
   margin-bottom: 16rpx;
   transition: all 0.2s;
 
+  .tag-icon {
+    width: 32rpx;
+    height: 32rpx;
+    margin-right: 8rpx;
+  }
+
   &.active {
     background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
     border-color: $primary;
     color: $text-white;
   }
+}
+
+.custom-category-row {
+  margin-top: 16rpx;
+}
+
+.custom-category-input {
+  width: 100%;
+  height: 72rpx;
+  background: $bg-white;
+  border: 2rpx solid $primary;
+  border-radius: $radius-sm;
+  padding: 0 24rpx;
+  font-size: $font-base;
+  color: $text-normal;
+  box-sizing: border-box;
 }
 
 .custom-tag-row {

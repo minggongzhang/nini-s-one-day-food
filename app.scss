@@ -3,7 +3,8 @@
 page {
   background: $bg-gradient;
   min-height: 100vh;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* 不要设置自定义 font-family，否则真机上 Emoji 图标会显示为方框 */
+  /* 系统默认字体已自带 Emoji 渲染支持 */
 }
 
 .container {

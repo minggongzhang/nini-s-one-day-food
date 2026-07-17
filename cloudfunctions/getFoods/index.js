@@ -5,24 +5,39 @@ cloud.init({
 })
 
 const db = cloud.database()
+const _ = db.command
 
 exports.main = async (event, context) => {
+  const wxContext = cloud.getWXContext()
+  const openid = wxContext.OPENID
   const { category } = event
-  
-  console.log('getFoods called with category:', category)
-  
+
+  console.log('getFoods called by openid:', openid, 'category:', category)
+
   try {
-    let query = db.collection('foods').orderBy('sort', 'asc')
-    
+    // 数据隔离策略：
+    // - 默认菜品（isCustom 不为 true）：所有女友都能看到
+    // - 自定义菜品（isCustom 为 true）：仅创建者自己能看到
+    let whereCondition = _.or([
+      { isCustom: _.neq(true) },
+      { createdBy: openid }
+    ])
+
+    // 叠加分类筛选
     if (category && category !== '全部') {
-      query = query.where({
-        category: category
-      })
+      whereCondition = _.and([
+        whereCondition,
+        { category: category }
+      ])
     }
-    
-    const result = await query.get()
-    console.log('getFoods result:', result)
-    
+
+    const result = await db.collection('foods')
+      .where(whereCondition)
+      .orderBy('sort', 'asc')
+      .get()
+
+    console.log('getFoods result count:', result.data.length)
+
     return {
       success: true,
       data: result.data,

@@ -1,14 +1,14 @@
 <!--index.wxml-->
 <view class="page-container">
   <view class="header-card">
-    <text class="greeting">💕 {{ nickname || '亲爱的' }}，今天想吃什么？</text>
+    <view class="greeting"><image class="inline-emoji" src="/images/emoji/heart.png" /> {{ nickname || '亲爱的' }}，今天想吃什么？</view>
     <text class="date">{{ getCurrentDate() }}</text>
   </view>
 
   <text class="section-title">今日推荐</text>
   
   <view class="food-card" wx:if="{{ !loading && recommendations.length > 0 }}" wx:for="{{ recommendations }}" wx:key="_id" bindtap="handleFoodTap">
-    <view class="food-icon">{{ item.icon }}</view>
+    <view class="food-icon"><image class="food-icon-img" src="{{ item.iconPath }}" mode="aspectFit" /></view>
     <view class="food-info">
       <text class="food-name">{{ item.name }}</text>
       <text class="food-desc">{{ item.description }}</text>
@@ -17,19 +17,19 @@
   </view>
 
   <view class="loading-state" wx:if="{{ loading }}">
-    <text class="loading-icon">⏳</text>
+    <image class="loading-icon" src="/images/emoji/hourglass.png" />
     <text class="loading-text">加载中...</text>
   </view>
 
   <view class="empty-state" wx:if="{{ !loading && recommendations.length === 0 }}">
-    <text class="empty-icon">🍽️</text>
+    <image class="empty-icon" src="/images/emoji/plate.png" />
     <text class="empty-text">暂无推荐菜品</text>
   </view>
 
   <text class="section-title">最近吃过</text>
   
   <view class="empty-state">
-    <text class="empty-icon">📝</text>
+    <image class="empty-icon" src="/images/emoji/memo.png" />
     <text class="empty-text">还没有记录哦，快去点餐吧~</text>
   </view>
 </view>

@@ -2,8 +2,33 @@
 <view class="page-container">
   <!-- 角色提示 -->
   <view class="role-banner" wx:if="{{ role }}">
-    <text class="role-text">{{ role === 'boyfriend' ? '🤴 男朋友模式 — 等待妮妮下单' : '👸 女朋友模式 — 查看你的订单' }}</text>
+    <view class="role-banner-content">
+      <image class="role-banner-icon" src="{{ role === 'boyfriend' ? '/images/emoji/cook.png' : '/images/emoji/princess.png' }}" />
+      <text class="role-text">{{ role === 'boyfriend' ? '男朋友模式 — 等待' + (partnerNickname || '女朋友') + '下单' : '女朋友模式 — 查看你的订单' }}</text>
+    </view>
   </view>
+
+  <!-- 男朋友：轮询状态提示 -->
+  <view class="notify-banner polling {{ pollingActive ? 'active' : '' }}" wx:if="{{ role === 'boyfriend' }}">
+    <image class="notify-icon" src="{{ pollingActive ? '/images/emoji/refresh.png' : '/images/emoji/pause.png' }}" />
+    <text class="notify-text">{{ pollingActive ? '实时监控已开启，新订单将实时提醒' : '实时监控未开启' }}</text>
+  </view>
+  <view class="notify-subtext" wx:if="{{ role === 'boyfriend' }}">
+    {{ pollingActive ? '小程序在前台时每5秒检查一次新订单，后台时每30秒检查一次' : '请重新登录以开启实时监控' }}
+  </view>
+
+  <!-- 男朋友：微信订阅消息（备用方案） -->
+  <view class="notify-banner {{ notifyEnabled ? 'enabled' : '' }}" wx:if="{{ role === 'boyfriend' }}" bindtap="onEnableNotify">
+    <image class="notify-icon" src="{{ notifyEnabled ? '/images/emoji/phone.png' : '/images/emoji/phone-off.png' }}" />
+    <text class="notify-text">{{ notifyEnabled ? '微信通知已开启（备用）' : '开启微信通知（备用）' }}</text>
+    <text class="notify-arrow">›</text>
+  </view>
+  <view class="notify-subtext" wx:if="{{ role === 'boyfriend' }}">
+    {{ notifyEnabled ? '小程序不在前台时，可通过微信订阅消息接收通知' : '开启后，小程序不在前台时也能收到通知' }}
+  </view>
+
+  <!-- 测试通知按钮（仅开发时使用，已注释） -->
+  <!-- <view class="test-notify-btn" wx:if="{{ role === 'boyfriend' }}" bindtap="onTestNotify">📨 发送测试微信通知</view> -->
 
   <!-- 状态筛选 -->
   <view class="filter-tabs">
@@ -32,7 +57,7 @@
       <!-- 下单用户（男朋友视角） -->
       <view class="order-user" wx:if="{{ role === 'boyfriend' }}">
         <image class="user-avatar" src="{{ item.userAvatar }}" mode="aspectFill" wx:if="{{ item.userAvatar }}"></image>
-        <text class="user-name">{{ item.userNickname || '妮妮' }} 下单</text>
+        <text class="user-name">{{ item.userNickname || '女朋友' }} 下单</text>
       </view>
 
       <!-- 菜品列表 -->
@@ -40,7 +65,7 @@
         <view class="order-item" wx:for="{{ item.items }}" wx:for-item="food" wx:key="name">
           <view class="item-icon">
             <image wx:if="{{ food.imageUrl }}" src="{{ food.imageUrl }}" mode="aspectFill" class="item-img" />
-            <text wx:else>{{ food.icon }}</text>
+            <image wx:else src="{{ food.iconPath }}" class="item-icon-img" mode="aspectFit" />
           </view>
           <view class="item-info">
             <text class="item-name">{{ food.name }}</text>
@@ -91,13 +116,13 @@
 
   <!-- 空状态 -->
   <view class="empty-state" wx:if="{{ !loading && orders.length === 0 }}">
-    <text class="empty-icon">{{ activeStatus === 'all' ? '📋' : '✅' }}</text>
+    <image class="empty-icon" src="{{ activeStatus === 'all' ? '/images/emoji/clipboard.png' : '/images/emoji/check.png' }}" />
     <text class="empty-text">{{ activeStatus === 'all' ? '还没有订单哦' : '暂无相关订单' }}</text>
   </view>
 
   <!-- 加载中 -->
   <view class="loading-state" wx:if="{{ loading }}">
-    <text class="loading-icon">⏳</text>
+    <image class="loading-icon" src="/images/emoji/hourglass.png" />
     <text class="loading-text">加载中...</text>
   </view>
 </view>

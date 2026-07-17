@@ -19,6 +19,15 @@
     font-weight: bold;
     color: $text-primary;
     margin-bottom: 16rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .inline-emoji {
+      width: 32rpx;
+      height: 32rpx;
+      margin-right: 8rpx;
+    }
   }
 
   .date {
@@ -54,7 +63,11 @@
     align-items: center;
     justify-content: center;
     margin-right: 24rpx;
-    font-size: 48rpx;
+
+    .food-icon-img {
+      width: 60rpx;
+      height: 60rpx;
+    }
   }
 
   .food-info {
@@ -81,12 +94,17 @@
 
 .empty-state,
 .loading-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   padding: 100rpx 0;
 
   .empty-icon,
   .loading-icon {
-    font-size: 120rpx;
+    width: 120rpx;
+    height: 120rpx;
     margin-bottom: 32rpx;
   }
 

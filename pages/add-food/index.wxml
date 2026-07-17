@@ -17,14 +17,29 @@
       <text class="form-label">选个分类</text>
       <view class="tag-group">
         <view
-          class="tag-chip {{ selectedCategory === item.name ? 'active' : '' }}"
+          class="tag-chip {{ selectedCategory === item.name && !showCustomCategory ? 'active' : '' }}"
           wx:for="{{ categoryOptions }}"
           wx:key="name"
           data-name="{{ item.name }}"
           bindtap="onCategoryTap"
         >
-          {{ item.icon }} {{ item.name }}
+          <image class="tag-icon" src="{{ item.iconPath }}" /> {{ item.name }}
         </view>
+        <view
+          class="tag-chip {{ showCustomCategory ? 'active' : '' }}"
+          bindtap="onToggleCustomCategory"
+        >
+          <image class="tag-icon" src="/images/emoji/pencil.png" /> 自定义
+        </view>
+      </view>
+      <view class="custom-category-row" wx:if="{{ showCustomCategory }}">
+        <input
+          class="custom-category-input"
+          placeholder="输入自定义分类名（如：甜品、烧烤...）"
+          bindinput="onCustomCategoryInput"
+          focus="{{ customCategoryFocus }}"
+          maxlength="6"
+        />
       </view>
     </view>
 
@@ -43,11 +58,12 @@
       </view>
       <view class="custom-tag-row" wx:if="{{ showCustomTagInput }}">
         <input
+          wx:if="{{ tagInputVisible }}"
           class="custom-tag-input"
           placeholder="输入自定义标签"
-          value="{{ customTagValue }}"
           bindinput="onCustomTagInput"
           maxlength="8"
+          focus="{{ true }}"
         />
         <view class="custom-tag-add" bindtap="onAddCustomTag">添加</view>
       </view>

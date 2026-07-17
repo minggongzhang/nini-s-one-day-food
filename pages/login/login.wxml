@@ -2,26 +2,33 @@
 <view class="login-container">
   <view class="header">
     <view class="logo-icon">
-      <text class="heart">💕</text>
+      <image class="heart" src="/images/emoji/heart.png" />
     </view>
     <text class="title">妮妮的一日三餐</text>
-    <text class="subtitle">选择角色，开始你们的美食之旅 ❤️</text>
+    <view class="subtitle">选择角色，开始你们的美食之旅 <image class="inline-icon" src="/images/emoji/red-heart.png" /></view>
   </view>
 
-  <view class="login-form">
+  <!-- 加载状态 -->
+  <view class="loading-wrapper" wx:if="{{ loadingUserInfo }}">
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 登录表单 -->
+  <view class="login-form" wx:else>
     <view class="avatar-section">
-      <view class="avatar-wrapper" wx:if="{{ avatarUrl }}">
-        <image class="avatar" src="{{ avatarUrl }}" mode="aspectFill"></image>
-      </view>
-      <button 
-        class="avatar-btn" 
-        wx:else 
-        open-type="chooseAvatar" 
+      <button
+        class="avatar-wrapper-btn"
+        open-type="chooseAvatar"
         bindchooseavatar="onChooseAvatar"
       >
-        <text class="avatar-icon">👤</text>
+        <view class="avatar-wrapper" wx:if="{{ avatarUrl }}">
+          <image class="avatar" src="{{ avatarUrl }}" mode="aspectFill"></image>
+        </view>
+        <view class="avatar-btn" wx:else>
+          <image class="avatar-icon" src="/images/emoji/person.png" />
+        </view>
+        <text class="avatar-tip">{{ avatarUrl ? '点击更换头像' : '点击选择头像' }}</text>
       </button>
-      <text class="avatar-tip">点击选择头像</text>
     </view>
 
     <view class="input-section">
@@ -36,13 +43,13 @@
 
     <view class="role-section">
       <text class="role-label">选择你的角色</text>
-      <view class="role-options">
+      <view class="role-options" wx:if="{{ !hasExistingRole }}">
         <view 
           class="role-card {{ selectedRole === 'girlfriend' ? 'active' : '' }}"
           bindtap="onRoleSelect"
           data-role="girlfriend"
         >
-          <text class="role-emoji">👸</text>
+          <image class="role-emoji" src="/images/emoji/girl.png" />
           <text class="role-name">女朋友</text>
           <text class="role-desc">点菜下单</text>
         </view>
@@ -51,10 +58,18 @@
           bindtap="onRoleSelect"
           data-role="boyfriend"
         >
-          <text class="role-emoji">🤴</text>
+          <image class="role-emoji" src="/images/emoji/cook.png" />
           <text class="role-name">男朋友</text>
           <text class="role-desc">接单制作</text>
         </view>
+      </view>
+      <view class="role-fixed" wx:else>
+        <view class="role-card active">
+          <image class="role-emoji" src="{{ selectedRole === 'girlfriend' ? '/images/emoji/princess.png' : '/images/emoji/cook.png' }}" />
+          <text class="role-name">{{ selectedRole === 'girlfriend' ? '女朋友' : '男朋友' }}</text>
+          <text class="role-desc">{{ selectedRole === 'girlfriend' ? '点菜下单' : '接单制作' }}</text>
+        </view>
+        <text class="role-tip">角色已固定，无法更改</text>
       </view>
     </view>
 
@@ -64,6 +79,6 @@
   </view>
 
   <view class="footer">
-    <text class="copyright">Made with ❤️ for NiNi</text>
+    <view class="copyright">Made with <image class="inline-icon-sm" src="/images/emoji/red-heart.png" /> for NiNi</view>
   </view>
 </view>

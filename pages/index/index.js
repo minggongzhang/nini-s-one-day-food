@@ -1,5 +1,6 @@
 // pages/index/index.js
 const app = getApp()
+const { addIconPaths } = require('../../utils/emojiIcons')
 
 Page({
   data: {
@@ -52,7 +53,7 @@ Page({
       if (res && res.result) {
         if (res.result.success) {
           this.setData({
-            recommendations: res.result.data || [],
+            recommendations: addIconPaths(res.result.data || []),
             loading: false
           })
           console.log('获取推荐成功，数量:', res.result.count)

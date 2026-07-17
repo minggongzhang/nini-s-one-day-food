@@ -36,7 +36,8 @@
     justify-content: center;
 
     .placeholder-icon {
-      font-size: 56rpx;
+      width: 56rpx;
+      height: 56rpx;
     }
   }
 
@@ -59,9 +60,18 @@
 
   .role-badge {
     font-size: $font-xs;
-    padding: 4rpx 16rpx;
+    padding: 0 8rpx 16rpx;
     border-radius: 20rpx;
     margin-left: 16rpx;
+    line-height: $font-xs;
+    display: inline-flex;
+    align-items: center;
+
+    .role-badge-icon {
+      width: 24rpx;
+      height: 24rpx;
+      margin-right: 4rpx;
+    }
 
     &.role-boy {
       background: rgba(64, 158, 255, 0.15);
@@ -174,7 +184,8 @@
     }
 
     .menu-icon {
-      font-size: 40rpx;
+      width: 40rpx;
+      height: 40rpx;
       margin-right: 24rpx;
     }
 
@@ -204,7 +215,7 @@
 
 .recharge-modal {
   position: fixed;
-  bottom: 0;
+  bottom: 100rpx;
   left: 0;
   right: 0;
   background: $bg-white;
@@ -212,6 +223,44 @@
   padding: 40rpx 32rpx;
   z-index: 201;
   animation: slideUp 0.3s ease;
+}
+
+/* 绑定弹窗 */
+.bind-modal {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  background: $bg-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding: 40rpx 32rpx;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+  z-index: 201;
+  animation: slideUp 0.3s ease;
+
+  .bind-input-section {
+    margin-bottom: 32rpx;
+
+    .bind-input-label {
+      font-size: $font-sm;
+      color: $text-normal;
+      display: block;
+      margin-bottom: 12rpx;
+    }
+
+    .bind-input {
+      width: 100%;
+      height: 88rpx;
+      background: $bg-white;
+      border: 2rpx solid $primary-border;
+      border-radius: $radius-md;
+      font-size: $font-lg;
+      font-weight: bold;
+      color: $primary;
+      letter-spacing: 8rpx;
+      text-align: center;
+    }
+  }
 }
 
 @keyframes slideUp {
@@ -334,3 +383,244 @@
     }
   }
 }
+
+/* 情侣绑定卡片 */
+.bind-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: $shadow-sm;
+
+  .bind-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20rpx;
+
+    .bind-label {
+      font-size: $font-base;
+      font-weight: bold;
+      color: $text-normal;
+    }
+
+    .bind-status {
+      font-size: $font-sm;
+      color: $text-light;
+      display: inline-flex;
+      align-items: center;
+
+      .inline-emoji-sm {
+        width: 24rpx;
+        height: 24rpx;
+        margin-right: 4rpx;
+      }
+
+      &.bound {
+        color: #4caf50;
+      }
+    }
+  }
+
+  .bind-actions {
+    margin-bottom: 16rpx;
+
+    .invite-code-box {
+      display: flex;
+      align-items: center;
+      background: $bg-white;
+      border: 2rpx solid $primary-border;
+      border-radius: $radius-sm;
+      padding: 20rpx;
+      margin-bottom: 16rpx;
+
+      .invite-code-text {
+        flex: 1;
+        font-size: $font-lg;
+        font-weight: bold;
+        color: $primary;
+        letter-spacing: 4rpx;
+      }
+
+      .copy-btn {
+        background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+        color: $text-white;
+        font-size: $font-sm;
+        padding: 10rpx 24rpx;
+        border-radius: $radius-sm;
+      }
+    }
+
+    .bind-btn {
+      background: linear-gradient(135deg, #409eff 0%, #337ecc 100%);
+      color: $text-white;
+      font-size: $font-base;
+      font-weight: bold;
+      padding: 24rpx;
+      border-radius: $radius-md;
+      text-align: center;
+    }
+  }
+
+  .bind-tip {
+    font-size: $font-sm;
+    color: $text-light;
+    line-height: 1.6;
+
+    .inline-emoji-sm {
+      width: 20rpx;
+      height: 20rpx;
+      margin: 0 4rpx;
+      vertical-align: middle;
+    }
+  }
+
+  .bind-partner-info {
+    margin-top: 16rpx;
+    padding: 24rpx;
+    background: $bg-white;
+    border-radius: $radius-sm;
+    border: 2rpx solid $primary-border;
+
+    .partner-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 16rpx;
+    }
+
+    .partner-avatar {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: $radius-circle;
+      border: 3rpx solid $primary-border;
+      margin-right: 20rpx;
+    }
+
+    .partner-avatar-placeholder {
+      width: 80rpx;
+      height: 80rpx;
+      border-radius: $radius-circle;
+      background: $bg-gradient;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20rpx;
+
+      .placeholder-icon-sm {
+        width: 40rpx;
+        height: 40rpx;
+      }
+    }
+
+    .partner-detail {
+      flex: 1;
+    }
+    .partner-name {
+      font-size: $font-base;
+      font-weight: bold;
+      color: $text-normal;
+      display: block;
+      margin-bottom: 4rpx;
+    }
+    .partner-role-badge {
+      font-size: $font-xs;
+      padding: 0 8rpx 16rpx;
+      border-radius: 20rpx;
+      margin-left: 16rpx;
+      line-height: $font-xs;
+      display: inline-flex;
+      align-items: center;
+
+      &.role-boy {
+        background: rgba(64, 158, 255, 0.15);
+        color: #409eff;
+      }
+
+      &.role-girl {
+        background: rgba(255, 107, 107, 0.15);
+        color: $primary;
+      }
+    }
+
+    .unbind-link {
+      text-align: right;
+      margin-top: 12rpx;
+      padding-top: 12rpx;
+      border-top: 1rpx solid rgba(0, 0, 0, 0.05);
+
+      text {
+        font-size: $font-xs;
+        color: $text-light;
+      }
+
+      &:active {
+        text {
+          color: #999;
+        }
+      }
+    }
+  }
+}
+
+/* 解绑确认弹窗 */
+.unbind-modal {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  right: 0;
+  background: $bg-white;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding: 48rpx 32rpx;
+  padding-bottom: calc(48rpx + env(safe-area-inset-bottom));
+  z-index: 201;
+  animation: slideUp 0.3s ease;
+
+  .unbind-icon-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24rpx;
+
+    .unbind-icon {
+      width: 80rpx;
+      height: 80rpx;
+    }
+  }
+
+  .unbind-title {
+    font-size: $font-lg;
+    font-weight: bold;
+    color: $text-normal;
+    text-align: center;
+    margin-bottom: 20rpx;
+  }
+
+  .unbind-desc {
+    font-size: $font-sm;
+    color: $text-light;
+    line-height: 1.7;
+    text-align: center;
+    margin-bottom: 24rpx;
+    padding: 0 24rpx;
+  }
+
+  .unbind-warning {
+    background: rgba(255, 152, 0, 0.1);
+    border-radius: $radius-sm;
+    padding: 20rpx 24rpx;
+    margin-bottom: 24rpx;
+
+    text {
+      font-size: $font-sm;
+      color: #ff9800;
+      line-height: 1.6;
+    }
+  }
+
+  .modal-btns {
+    .modal-btn.danger {
+      background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+      color: $text-white;
+    }
+  }
+}
+

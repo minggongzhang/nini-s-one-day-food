@@ -5,13 +5,14 @@
     <view class="user-row">
       <image class="user-avatar" src="{{ userInfo.avatarUrl }}" mode="aspectFill" wx:if="{{ userInfo.avatarUrl }}"></image>
       <view class="user-avatar-placeholder" wx:else>
-        <text class="placeholder-icon">👤</text>
+        <image class="placeholder-icon" src="/images/emoji/person.png" />
       </view>
       <view class="user-info">
         <view class="user-name-row">
           <text class="user-name">{{ userInfo.nickname || '未登录' }}</text>
           <text class="role-badge {{ userInfo.role === 'boyfriend' ? 'role-boy' : 'role-girl' }}">
-            {{ userInfo.role === 'boyfriend' ? '🤴 男朋友' : '👸 女朋友' }}
+            <image class="role-badge-icon" src="{{ userInfo.role === 'boyfriend' ? '/images/emoji/prince.png' : '/images/emoji/princess.png' }}" />
+            {{ userInfo.role === 'boyfriend' ? '♂男朋友' : '♀女朋友' }}
           </text>
         </view>
         <text class="user-id">ID: {{ shortOpenId }}</text>
@@ -19,11 +20,65 @@
     </view>
   </view>
 
+  <!-- 情侣绑定状态 -->
+  <view class="bind-card">
+    <view class="bind-info">
+      <text class="bind-label">情侣绑定</text>
+      <text class="bind-status {{ userInfo.isBound ? 'bound' : '' }}">
+        <image class="inline-emoji-sm" src="{{ userInfo.isBound ? '/images/emoji/hearts.png' : '/images/emoji/cross.png' }}" />
+        {{ userInfo.isBound ? '已绑定' : '未绑定' }}
+      </text>
+    </view>
+    <view class="bind-actions" wx:if="{{ !userInfo.isBound }}">
+      <view class="invite-code-box">
+        <text class="invite-code-text">我的邀请码: {{ inviteCode }}</text>
+        <view class="copy-btn" bindtap="copyInviteCode">
+          <text>复制</text>
+        </view>
+      </view>
+      <view class="bind-btn" bindtap="onBindTap">
+        <text>绑定对方</text>
+      </view>
+    </view>
+    <view class="bind-tip" wx:if="{{ !userInfo.isBound }}">
+      让对方输入你的邀请码，或者你输入对方的邀请码即可绑定
+    </view>
+    <view class="bind-partner-info" wx:if="{{ userInfo.isBound && partnerInfo }}">
+      <view class="partner-row">
+        <image class="partner-avatar" src="{{ partnerInfo.avatarUrl }}" mode="aspectFill" wx:if="{{ partnerInfo.avatarUrl }}" />
+        <view class="partner-avatar-placeholder" wx:else>
+          <image class="placeholder-icon-sm" src="/images/emoji/person.png" />
+        </view>
+        <view class="partner-detail">
+          <text class="partner-name">{{ partnerInfo.nickname || '对方' }}</text>
+          <text class="partner-role-badge {{ partnerInfo.role === 'boyfriend' ? 'role-boy' : 'role-girl' }}">
+            {{ partnerInfo.role === 'boyfriend' ? '♂男朋友' : '♀女朋友' }}
+          </text>
+        </view>
+      </view>
+      <view class="bind-tip">
+        你们已经成功绑定啦 <image class="inline-emoji-sm" src="/images/emoji/red-heart.png" />
+      </view>
+      <view class="unbind-link" bindtap="onUnbindTap">
+        <text>解除绑定 ></text>
+      </view>
+    </view>
+    <view class="bind-tip" wx:elif="{{ userInfo.isBound }}">
+      已绑定对象 <image class="inline-emoji-sm" src="/images/emoji/red-heart.png" />
+    </view>
+  </view>
+
   <!-- 妮妮币余额卡 -->
   <view class="balance-card">
     <view class="balance-info">
-      <text class="balance-label">妮妮币余额</text>
-      <text class="balance-amount">{{ userInfo.balance || 0 }}</text>
+      <view wx:if="{{ userInfo.role === 'boyfriend' }}">
+        <text class="balance-label">女朋友的妮妮币余额</text>
+        <text class="balance-amount">{{ partnerInfo.balance || 0 }}</text>
+      </view>
+      <view wx:else>
+        <text class="balance-label">妮妮币余额</text>
+        <text class="balance-amount">{{ userInfo.balance || 0 }}</text>
+      </view>
     </view>
     <view class="balance-actions">
       <view class="recharge-btn" wx:if="{{ userInfo.role === 'boyfriend' }}" bindtap="onRechargeTap">
@@ -54,17 +109,17 @@
   <!-- 功能菜单 -->
   <view class="menu-list">
     <view class="menu-item" bindtap="goToOrders">
-      <text class="menu-icon">📋</text>
+      <image class="menu-icon" src="/images/emoji/clipboard.png" />
       <text class="menu-text">我的订单</text>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-item" bindtap="goToFood">
-      <text class="menu-icon">🍔</text>
+      <image class="menu-icon" src="/images/emoji/hamburger.png" />
       <text class="menu-text">去点餐</text>
       <text class="menu-arrow">›</text>
     </view>
     <view class="menu-item" bindtap="onLogout">
-      <text class="menu-icon">🚪</text>
+      <image class="menu-icon" src="/images/emoji/door.png" />
       <text class="menu-text">退出登录</text>
       <text class="menu-arrow">›</text>
     </view>
@@ -87,7 +142,7 @@
       class="target-chip {{ rechargeTarget === 'girlfriend' ? 'active' : '' }}"
       bindtap="onTargetSelect"
       data-target="girlfriend"
-    >给妮妮 👸</view>
+    >给对象</view>
   </view>
 
   <!-- 充值金额 -->
@@ -115,5 +170,47 @@
   <view class="modal-btns">
     <view class="modal-btn cancel" bindtap="onCloseRecharge">取消</view>
     <view class="modal-btn confirm" bindtap="onConfirmRecharge">{{ recharging ? '充值中...' : '确认充值' }}</view>
+  </view>
+</view>
+
+<!-- 绑定弹窗 -->
+<view class="modal-mask" wx:if="{{ showBindModal }}" bindtap="onCloseBind"></view>
+<view class="bind-modal" wx:if="{{ showBindModal }}">
+  <view class="modal-title">绑定情侣</view>
+
+  <view class="bind-input-section">
+    <text class="bind-input-label">请输入对方的邀请码</text>
+    <input
+      class="bind-input"
+      type="text"
+      placeholder="请输入6位邀请码"
+      value="{{ inputInviteCode }}"
+      bindinput="onInviteCodeInput"
+      maxlength="6"
+    />
+  </view>
+
+  <view class="modal-btns">
+    <view class="modal-btn cancel" bindtap="onCloseBind">取消</view>
+    <view class="modal-btn confirm" bindtap="onConfirmBind">{{ binding ? '绑定中...' : '确认绑定' }}</view>
+  </view>
+</view>
+
+<!-- 解绑确认弹窗 -->
+<view class="modal-mask" wx:if="{{ showUnbindModal }}" bindtap="onCloseUnbind"></view>
+<view class="unbind-modal" wx:if="{{ showUnbindModal }}">
+  <view class="unbind-icon-wrap">
+    <image class="unbind-icon" src="/images/emoji/cross.png" />
+  </view>
+  <view class="unbind-title">确认解除情侣绑定？</view>
+  <view class="unbind-desc">
+    解绑后，你将无法查看对方的新订单和余额信息，但历史订单仍可查看。双方可通过邀请码重新绑定。
+  </view>
+  <view class="unbind-warning" wx:if="{{ hasPendingOrders }}">
+    <text>⚠️ 你有 {{ pendingOrdersCount }} 笔未完成订单，解绑后将无法追踪这些订单的进度</text>
+  </view>
+  <view class="modal-btns">
+    <view class="modal-btn cancel" bindtap="onCloseUnbind">取消</view>
+    <view class="modal-btn danger" bindtap="onConfirmUnbind">{{ unbinding ? '解绑中...' : '确认解绑' }}</view>
   </view>
 </view>
