@@ -47,7 +47,7 @@
 
   <!-- 订单列表 -->
   <view class="order-list" wx:if="{{ !loading && orders.length > 0 }}">
-    <view class="order-card" wx:for="{{ orders }}" wx:key="_id">
+    <view class="order-card" wx:for="{{ orders }}" wx:key="_id" bindtap="onOrderTap" data-id="{{ item._id }}">
       <!-- 订单头部 -->
       <view class="order-header">
         <text class="order-no">单号：{{ item.orderNo }}</text>
@@ -85,6 +85,12 @@
       <view class="order-remark" wx:if="{{ item.remark }}">
         <text class="remark-label">备注：</text>
         <text class="remark-text">{{ item.remark }}</text>
+      </view>
+
+      <!-- 收货地址 -->
+      <view class="order-address" wx:if="{{ item.address }}">
+        <image class="address-icon-sm" src="/images/emoji/location.png" />
+        <text class="address-text">{{ item.address.locationName }}{{ item.address.room ? ' ' + item.address.room : '' }}</text>
       </view>
 
       <!-- 订单底部 -->

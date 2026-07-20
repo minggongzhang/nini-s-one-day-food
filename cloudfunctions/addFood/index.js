@@ -33,6 +33,11 @@ exports.main = async (event, context) => {
   }
 
   try {
+    // 查询用户角色
+    const userRes = await db.collection('users').where({ openid }).get()
+    const user = userRes.data[0] || {}
+    const isGirlfriend = user.role === 'girlfriend'
+
     const countResult = await db.collection("foods").count();
     const sort = countResult.total + 1;
 
@@ -41,7 +46,7 @@ exports.main = async (event, context) => {
       category,
       icon: icon || "/images/emoji/plate.png",
       description: description || "",
-      price: typeof price === "number" ? price : 0,
+      price: isGirlfriend ? 0 : (typeof price === "number" ? price : 0),
       tasteTags: Array.isArray(tasteTags) ? tasteTags : [],
       requirements: requirements || "",
       imageUrl: imageUrl || "",
@@ -51,7 +56,10 @@ exports.main = async (event, context) => {
       createdBy: openid,
       sort,
       isRecommended: false,
+      isShelved: isGirlfriend ? false : true,
+      status: isGirlfriend ? 'pending' : 'approved',
       createdAt: db.serverDate(),
+      updatedAt: db.serverDate(),
     };
 
     const result = await db.collection("foods").add({
@@ -64,6 +72,7 @@ exports.main = async (event, context) => {
       success: true,
       _id: result._id,
       data: foodData,
+      needReview: isGirlfriend,
     };
   } catch (err) {
     console.error("addFood error:", err);

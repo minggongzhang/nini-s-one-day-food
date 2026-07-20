@@ -1,0 +1,38 @@
+<!--pages/address/address-list.wxml-->
+<view class="page-container">
+
+  <view class="address-list" wx:if="{{ addressList.length > 0 }}">
+    <view class="addr-card {{ item.isDefault ? 'default' : '' }}" wx:for="{{ addressList }}" wx:key="index">
+      <view class="addr-main" bindtap="{{ fromCheckout ? 'onSelectForOrder' : '' }}" data-index="{{ index }}">
+        <view class="addr-top">
+          <text class="addr-name-text">{{ item.name }}</text>
+          <text class="addr-phone">{{ item.phone }}</text>
+          <view class="default-badge" wx:if="{{ item.isDefault }}">默认</view>
+        </view>
+        <text class="addr-detail-text">{{ item.locationName }}{{ item.room ? ' ' + item.room : '' }}</text>
+        <text class="addr-full-text">{{ item.locationAddress }}</text>
+      </view>
+      <view class="addr-actions">
+        <view class="addr-action" bindtap="onSetDefault" data-index="{{ index }}" wx:if="{{ !item.isDefault }}">
+          <text>设为默认</text>
+        </view>
+        <view class="addr-action" bindtap="onEditTap" data-index="{{ index }}">
+          <text>编辑</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <image class="empty-icon" src="/images/emoji/location.png" />
+    <text class="empty-text">还没有收货地址</text>
+  </view>
+
+  <view class="add-section" wx:if="{{ addressList.length < 6 }}">
+    <view class="add-btn" bindtap="onAddTap">
+      <text class="add-icon">+</text>
+      <text>新增收货地址</text>
+    </view>
+  </view>
+
+</view>

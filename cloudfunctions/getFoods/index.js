@@ -10,25 +10,46 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
-  const { category } = event
+  const { category, role } = event
 
-  console.log('getFoods called by openid:', openid, 'category:', category)
+  console.log('getFoods called by openid:', openid, 'category:', category, 'role:', role)
 
   try {
-    // 数据隔离策略：
-    // - 默认菜品（isCustom 不为 true）：所有女友都能看到
-    // - 自定义菜品（isCustom 为 true）：仅创建者自己能看到
-    let whereCondition = _.or([
-      { isCustom: _.neq(true) },
-      { createdBy: openid }
-    ])
+    let whereCondition
+
+    if (role === 'boyfriend') {
+      // 男友端：返回全部菜品（含待审核、已下架）
+      whereCondition = {}
+    } else {
+      // 女友端：只返回已审核的菜品
+      // 数据隔离：默认菜品（isCustom 非 true）+ 自己创建的自定义菜品
+      // 兼容旧数据：缺少 isShelved/status 字段的默认菜品视为已上架已审核
+      whereCondition = _.and([
+        _.or([
+          { isShelved: true },
+          { isShelved: _.exists(false) }
+        ]),
+        _.or([
+          { status: 'approved' },
+          { status: _.exists(false) }
+        ]),
+        _.or([
+          { isCustom: _.neq(true) },
+          { createdBy: openid }
+        ])
+      ])
+    }
 
     // 叠加分类筛选
     if (category && category !== '全部') {
-      whereCondition = _.and([
-        whereCondition,
-        { category: category }
-      ])
+      if (role === 'boyfriend') {
+        whereCondition = { category: category }
+      } else {
+        whereCondition = _.and([
+          whereCondition,
+          { category: category }
+        ])
+      }
     }
 
     const result = await db.collection('foods')

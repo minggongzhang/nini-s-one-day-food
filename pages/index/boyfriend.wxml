@@ -1,0 +1,134 @@
+<!--pages/index/boyfriend.wxml-->
+<view class="page-container">
+
+  <!-- 模块一：动态状态卡 -->
+  <view class="state-card state-{{ stateType }}" bindtap="onStateCardTap" wx:if="{{ stateType }}">
+    <view class="state-title">{{ stateConfig.title }}</view>
+    <view class="state-desc" wx:if="{{ stateConfig.desc }}">{{ stateConfig.desc }}</view>
+    <view class="state-timer" wx:if="{{ stateConfig.timer }}">{{ stateConfig.timer }}</view>
+    <view class="state-action" wx:if="{{ stateConfig.actionText }}">{{ stateConfig.actionText }}</view>
+  </view>
+
+  <!-- 模块二：快捷操作栏 -->
+  <view class="quick-actions">
+    <view class="quick-btn" bindtap="goToOrders">
+      <view class="quick-btn-icon-wrap orders-icon">
+        <image class="quick-btn-emoji" src="/images/emoji/clipboard.png" />
+      </view>
+      <text class="quick-btn-label">订单管理</text>
+      <view class="quick-badge" wx:if="{{ pendingCount > 0 }}">{{ pendingCount }}</view>
+    </view>
+    <view class="quick-btn" bindtap="goToFood">
+      <view class="quick-btn-icon-wrap food-icon">
+        <image class="quick-btn-emoji" src="/images/emoji/hamburger.png" />
+      </view>
+      <text class="quick-btn-label">菜品管理</text>
+    </view>
+    <view class="quick-btn" bindtap="goToRecharge">
+      <view class="quick-btn-icon-wrap recharge-icon">
+        <image class="quick-btn-emoji" src="/images/emoji/door.png" />
+      </view>
+      <text class="quick-btn-label">充值余额</text>
+    </view>
+    <view class="quick-btn" bindtap="onRemindOrder" style="opacity: {{ remindCooldown ? 0.5 : 1 }}">
+      <view class="quick-btn-icon-wrap remind-icon">
+        <image class="quick-btn-emoji" src="/images/emoji/cart.png" />
+      </view>
+      <text class="quick-btn-label">{{ remindCooldown ? '已提醒' : '提醒点餐' }}</text>
+    </view>
+  </view>
+
+  <!-- 模块三：今日数据看板 -->
+  <view class="section-header">
+    <text class="section-title">今日数据</text>
+    <text class="section-date">{{ currentDate }}</text>
+  </view>
+  <view class="dashboard">
+    <view class="dash-item" bindtap="goToOrders" data-status="all">
+      <text class="dash-num">{{ dashboard.totalOrders }}</text>
+      <text class="dash-label">今日订单</text>
+    </view>
+    <view class="dash-item" bindtap="goToOrders" data-status="completed">
+      <text class="dash-num">{{ dashboard.completedOrders }}</text>
+      <text class="dash-label">已完成</text>
+    </view>
+    <view class="dash-item" bindtap="goToOrders" data-status="processing">
+      <text class="dash-num">{{ dashboard.pendingOrders }}</text>
+      <text class="dash-label">待处理</text>
+    </view>
+    <view class="dash-item">
+      <text class="dash-num">{{ dashboard.totalMinutes || '--' }}</text>
+      <text class="dash-label">总耗时(分)</text>
+    </view>
+  </view>
+
+  <!-- 模块四：女友饮食档案 -->
+  <view class="section-header" wx:if="{{ partnerInfo.nickname }}">
+    <text class="section-title">{{ partnerInfo.nickname }}的口味档案</text>
+  </view>
+  <view class="profile-card" wx:if="{{ partnerInfo.nickname }}">
+    <view class="profile-header">
+      <view class="profile-avatar-wrap">
+        <image class="profile-avatar" src="{{ partnerInfo.avatarUrl }}" mode="aspectFill" wx:if="{{ partnerInfo.avatarUrl && !partnerInfo.avatarUrl.startsWith('cloud://') }}" />
+        <view class="profile-avatar-placeholder" wx:else>
+          <image class="placeholder-icon" src="/images/emoji/princess.png" />
+        </view>
+      </view>
+      <view class="profile-info">
+        <view class="profile-name-row">
+          <text class="profile-name">{{ partnerInfo.nickname }}</text>
+          <text class="profile-tag">女朋友</text>
+        </view>
+        <text class="profile-days" wx:if="{{ boundDays > 0 }}">已绑定 {{ boundDays }} 天</text>
+      </view>
+    </view>
+
+    <view class="profile-section" wx:if="{{ profileData.frequentFoods.length > 0 }}">
+      <text class="profile-section-label">最近常点</text>
+      <view class="profile-tags">
+        <text class="tag-chip" wx:for="{{ profileData.frequentFoods }}" wx:key="*this">{{ item }}</text>
+      </view>
+    </view>
+
+    <view class="profile-section" wx:if="{{ profileData.tastePreferences.length > 0 }}">
+      <text class="profile-section-label">口味偏好</text>
+      <view class="profile-tags">
+        <text class="tag-chip" wx:for="{{ profileData.tastePreferences }}" wx:key="*this">{{ item }}</text>
+      </view>
+    </view>
+
+    <view class="profile-section" wx:if="{{ profileData.avoidances.length > 0 }}">
+      <text class="profile-section-label">忌口</text>
+      <view class="profile-tags">
+        <text class="tag-chip tag-avoid" wx:for="{{ profileData.avoidances }}" wx:key="*this">{{ item }}</text>
+      </view>
+    </view>
+
+    <view class="profile-empty" wx:if="{{ profileData.isEmpty }}">
+      <text class="profile-empty-text">还没有记录，多给她做几顿饭吧~</text>
+    </view>
+  </view>
+
+  <!-- 模块五：待处理订单预览 -->
+  <view class="section-header" wx:if="{{ previewOrders.length > 0 }}">
+    <text class="section-title">待处理订单</text>
+  </view>
+  <view class="preview-card" wx:if="{{ previewOrders.length > 0 }}">
+    <view class="preview-item" wx:for="{{ previewOrders }}" wx:key="_id" wx:if="{{ index < 2 }}" bindtap="onPreviewOrderTap" data-id="{{ item._id }}">
+      <view class="preview-icon-wrap">
+        <image wx:if="{{ item.items[0].imageUrl }}" src="{{ item.items[0].imageUrl }}" mode="aspectFill" class="preview-img" />
+        <image wx:elif="{{ item.items[0].iconPath }}" src="{{ item.items[0].iconPath }}" mode="aspectFit" class="preview-emoji" />
+        <text wx:else class="preview-fallback">{{ item.items[0].name[0] }}</text>
+      </view>
+      <view class="preview-info">
+        <text class="preview-name">{{ item.items[0].name }}<text wx:if="{{ item.items.length > 1 }}"> 等{{ item.items.length }}件</text></text>
+        <text class="preview-time">{{ item.formattedTime || '' }}</text>
+      </view>
+      <text class="preview-status-tag status-{{ item.status }}">{{ statusMap[item.status] }}</text>
+    </view>
+    <view class="preview-more" bindtap="goToOrders" data-status="processing" wx:if="{{ previewOrders.length > 2 }}">
+      <text>还有 {{ previewOrders.length - 2 }} 个订单 ></text>
+    </view>
+  </view>
+
+</view>

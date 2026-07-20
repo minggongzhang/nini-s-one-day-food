@@ -1,0 +1,110 @@
+<view class="page-container" wx:if="{{ order }}">
+
+  <!-- 状态头部 -->
+  <view class="status-header" style="background: {{ statusColor[order.status] || '#8A7A6B' }}">
+    <text class="status-emoji">{{ order.status === 'completed' ? '✅' : order.status === 'rejected' ? '😔' : '⏳' }}</text>
+    <text class="status-text">{{ statusMap[order.status] }}</text>
+    <text class="status-sub" wx:if="{{ order.status === 'completed' && duration }}">制作用时：{{ duration }}</text>
+    <text class="status-sub" wx:if="{{ order.status === 'rejected' }}">妮妮币已退回账户</text>
+  </view>
+
+  <!-- 订单信息 -->
+  <view class="info-section">
+    <view class="section-title">订单信息</view>
+    <view class="info-row">
+      <text class="info-label">订单编号</text>
+      <view class="info-value-wrap" bindtap="onCopyOrderNo">
+        <text class="info-value">{{ order.orderNo }}</text>
+        <text class="info-action">复制</text>
+      </view>
+    </view>
+    <view class="info-row">
+      <text class="info-label">下单时间</text>
+      <text class="info-value">{{ order.formattedCreatedAt }}</text>
+    </view>
+    <view class="info-row" wx:if="{{ order.formattedAcceptedAt }}">
+      <text class="info-label">接单时间</text>
+      <text class="info-value">{{ order.formattedAcceptedAt }}</text>
+    </view>
+    <view class="info-row" wx:if="{{ order.formattedCompletedAt }}">
+      <text class="info-label">完成时间</text>
+      <text class="info-value">{{ order.formattedCompletedAt }}</text>
+    </view>
+  </view>
+
+  <!-- 收货地址 -->
+  <view class="info-section" wx:if="{{ order.address }}">
+    <view class="section-title">收货地址</view>
+    <view class="address-box" bindtap="onOpenAddress">
+      <view class="address-row">
+        <image class="address-icon" src="/images/emoji/location.png" />
+        <view class="address-content">
+          <text class="address-name">{{ order.address.locationName }}</text>
+          <text class="address-detail">{{ order.address.locationAddress }}{{ order.address.room ? ' ' + order.address.room : '' }}</text>
+          <text class="address-contact">{{ order.address.name }} {{ order.address.phone }}</text>
+        </view>
+      </view>
+      <text class="address-action" wx:if="{{ role === 'boyfriend' }}">导航 ›</text>
+    </view>
+  </view>
+
+  <!-- 菜品明细 -->
+  <view class="info-section">
+    <view class="section-title">菜品明细</view>
+    <view class="food-list-detail">
+      <view class="food-item-detail" wx:for="{{ order.items }}" wx:key="name">
+        <view class="food-icon-box">
+          <image wx:if="{{ item.imageUrl }}" src="{{ item.imageUrl }}" mode="aspectFill" class="food-img-box" />
+          <image wx:else src="{{ item.iconPath }}" mode="aspectFit" class="food-emoji-box" />
+        </view>
+        <view class="food-detail-info">
+          <text class="food-detail-name">{{ item.name }}</text>
+          <view class="food-detail-tags" wx:if="{{ item.tasteTags && item.tasteTags.length > 0 }}">
+            <text class="detail-tag" wx:for="{{ item.tasteTags }}" wx:for-item="tag" wx:key="*this">{{ tag }}</text>
+          </view>
+          <text class="food-detail-req" wx:if="{{ item.requirements }}">备注：{{ item.requirements }}</text>
+        </view>
+        <view class="food-detail-right">
+          <text class="food-detail-price">¥{{ item.price }}</text>
+          <text class="food-detail-qty">x{{ item.quantity }}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 订单备注 -->
+  <view class="info-section" wx:if="{{ order.remark }}">
+    <view class="section-title">订单备注</view>
+    <view class="remark-box">
+      <text>{{ order.remark }}</text>
+    </view>
+  </view>
+
+  <!-- 下单人信息（男友端） -->
+  <view class="info-section" wx:if="{{ role === 'boyfriend' }}">
+    <view class="section-title">下单人</view>
+    <view class="user-info-row">
+      <image class="user-avatar-lg" src="{{ order.userAvatar }}" mode="aspectFill" wx:if="{{ order.userAvatar }}" />
+      <view class="user-avatar-placeholder" wx:else>👧</view>
+      <text class="user-name-lg">{{ order.userNickname || '女朋友' }}</text>
+    </view>
+  </view>
+
+  <!-- 金额汇总 -->
+  <view class="amount-section">
+    <view class="amount-row">
+      <text class="amount-label">菜品合计</text>
+      <text class="amount-value">¥{{ order.totalAmount }}</text>
+    </view>
+    <view class="amount-row total">
+      <text class="amount-label">实付</text>
+      <text class="amount-total">{{ order.totalAmount }} 妮妮币</text>
+    </view>
+  </view>
+
+</view>
+
+<!-- 加载中 -->
+<view class="loading-page" wx:if="{{ loading }}">
+  <text>加载中...</text>
+</view>

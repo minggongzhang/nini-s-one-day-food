@@ -1,0 +1,98 @@
+<!--pages/edit-food/edit-food.wxml-->
+<view class="page-container">
+  <view class="form-card">
+
+    <view class="form-item">
+      <text class="form-label">菜品名称</text>
+      <input class="form-input" placeholder="菜品名称" value="{{ name }}" bindinput="onNameInput" maxlength="20" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">选个分类</text>
+      <view class="tag-group">
+        <view
+          class="tag-chip {{ selectedCategory === item.name && !showCustomCategory ? 'active' : '' }}"
+          wx:for="{{ categoryOptions }}"
+          wx:key="name"
+          data-name="{{ item.name }}"
+          bindtap="onCategoryTap"
+        >
+          <image class="tag-icon" src="{{ item.iconPath }}" /> {{ item.name }}
+        </view>
+        <view class="tag-chip {{ showCustomCategory ? 'active' : '' }}" bindtap="onToggleCustomCategory">
+          <image class="tag-icon" src="/images/emoji/pencil.png" /> 自定义
+        </view>
+      </view>
+      <view class="custom-category-row" wx:if="{{ showCustomCategory }}">
+        <input class="custom-category-input" placeholder="输入自定义分类名" bindinput="onCustomCategoryInput" value="{{ showCustomCategory ? selectedCategory : '' }}" maxlength="6" />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">价格（妮妮币）</text>
+      <input class="form-input" type="digit" placeholder="输入价格" value="{{ price }}" bindinput="onPriceInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">口味偏好</text>
+      <view class="tag-group">
+        <view
+          class="tag-chip {{ item.checked ? 'active' : '' }}"
+          wx:for="{{ tasteTags }}"
+          wx:key="name"
+          data-index="{{ index }}"
+          bindtap="onTasteTagTap"
+        >
+          {{ item.name }}
+        </view>
+      </view>
+      <view class="custom-tag-row" wx:if="{{ showCustomTagInput }}">
+        <input class="custom-tag-input" placeholder="输入自定义标签" bindinput="onCustomTagInput" maxlength="8" />
+        <view class="custom-tag-add" bindtap="onAddCustomTag">添加</view>
+      </view>
+      <view class="custom-tag-toggle" bindtap="onToggleCustomTag">
+        {{ showCustomTagInput ? '收起' : '+ 自定义标签' }}
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">特殊要求 / 描述</text>
+      <textarea class="form-textarea" placeholder="备注信息..." value="{{ requirements }}" bindinput="onRequirementsInput" maxlength="100" auto-height />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">菜品图片（最多3张）</text>
+      <view class="image-upload-area">
+        <view class="image-preview" wx:for="{{ images }}" wx:key="*this">
+          <image src="{{ item }}" mode="aspectFill" class="preview-img" />
+          <view class="image-delete" data-index="{{ index }}" bindtap="onDeleteImage">x</view>
+        </view>
+        <view class="image-add" bindtap="onChooseImage" wx:if="{{ images.length < 3 }}">
+          <text class="add-icon">+</text>
+          <text class="add-text">{{ images.length }}/3</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">想吃程度</text>
+      <view class="craving-row">
+        <view class="craving-stars">
+          <text
+            class="star {{ index < cravingLevel ? 'filled' : '' }}"
+            wx:for="{{ [1,2,3,4,5] }}"
+            wx:key="*this"
+            data-level="{{ item }}"
+            bindtap="onCravingTap"
+          >{{ index < cravingLevel ? '♥' : '♡' }}</text>
+        </view>
+        <text class="craving-text">{{ cravingText }}</text>
+      </view>
+    </view>
+
+  </view>
+
+  <button class="submit-btn" bindtap="onSubmit" loading="{{ submitting }}" disabled="{{ submitting }}">
+    {{ submitting ? '保存中...' : '保存修改' }}
+  </button>
+</view>

@@ -106,6 +106,23 @@
     </view>
   </view>
 
+  <!-- 收货地址 -->
+  <view class="address-card" wx:if="{{ userInfo.role === 'girlfriend' }}" bindtap="goToAddress">
+    <view class="address-header">
+      <image class="address-icon" src="/images/emoji/location.png" />
+      <text class="address-title">收货地址</text>
+    </view>
+    <view class="address-body" wx:if="{{ deliveryAddress }}">
+      <text class="address-name">{{ deliveryAddress.locationName }}</text>
+      <text class="address-detail">{{ deliveryAddress.locationAddress }}{{ deliveryAddress.room ? ' ' + deliveryAddress.room : '' }}</text>
+      <text class="address-contact">{{ deliveryAddress.name }} {{ deliveryAddress.phone }}</text>
+    </view>
+    <view class="address-body empty" wx:else>
+      <text>还没有设置收货地址，点击添加</text>
+    </view>
+    <text class="address-arrow">›</text>
+  </view>
+
   <!-- 功能菜单 -->
   <view class="menu-list">
     <view class="menu-item" bindtap="goToOrders">

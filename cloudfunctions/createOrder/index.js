@@ -257,7 +257,7 @@ exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
 
-  const { items, totalAmount, remark } = event;
+  const { items, totalAmount, remark, address } = event;
 
   if (!items || !Array.isArray(items) || items.length === 0) {
     return { success: false, error: "购物车为空" };
@@ -336,6 +336,7 @@ exports.main = async (event, context) => {
       totalAmount,
       status: "pending",
       remark: remark || "",
+      address: address || null,
       createdBy: openid,
       handledBy: "",
       createdAt: db.serverDate(),

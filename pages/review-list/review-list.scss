@@ -1,0 +1,237 @@
+@import 'styles/variables.scss';
+
+page {
+  background: $bg-gradient;
+  min-height: 100vh;
+}
+
+.page-container {
+  padding: 24rpx;
+  padding-bottom: 40rpx;
+}
+
+// ========== 菜品列表 ==========
+.food-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.food-card {
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 24rpx;
+  border: 1rpx solid $primary-border;
+}
+
+.food-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
+.food-icon-wrap {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  background: rgba(255, 138, 158, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  .food-img {
+    width: 120rpx;
+    height: 120rpx;
+  }
+
+  .food-emoji {
+    width: 60rpx;
+    height: 60rpx;
+  }
+
+  .food-emoji-text {
+    font-size: 48rpx;
+    font-weight: bold;
+    color: $primary;
+  }
+}
+
+.food-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.food-name {
+  font-size: $font-base;
+  font-weight: bold;
+  color: $text-normal;
+  display: block;
+}
+
+.food-category {
+  font-size: $font-xs;
+  color: $text-light;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.food-desc {
+  font-size: $font-xs;
+  color: $text-light;
+  margin-top: 6rpx;
+  display: block;
+}
+
+.food-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 10rpx;
+
+  .tag {
+    font-size: $font-xs;
+    background: rgba(255, 138, 158, 0.1);
+    color: $primary-dark;
+    padding: 4rpx 14rpx;
+    border-radius: 12rpx;
+  }
+}
+
+// ========== 操作按钮 ==========
+.food-actions {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 20rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid $primary-border;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 10rpx 20rpx;
+  border-radius: 12rpx;
+  background: rgba(255, 138, 158, 0.08);
+  font-size: $font-xs;
+  color: $primary-dark;
+
+  &:active {
+    opacity: 0.7;
+  }
+
+  .action-icon {
+    width: 28rpx;
+    height: 28rpx;
+  }
+}
+
+.review-btn {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4CAF50;
+}
+
+.reject-btn {
+  background: rgba(239, 83, 80, 0.1);
+  color: #EF5350;
+}
+
+// ========== 空态 ==========
+.empty-state {
+  text-align: center;
+  padding: 80rpx 0;
+
+  .empty-text {
+    font-size: $font-sm;
+    color: $text-light;
+  }
+}
+
+// ========== 弹窗 ==========
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 80%;
+  max-width: 560rpx;
+  background: $bg-white;
+  border-radius: $radius-md;
+  padding: 32rpx;
+  box-shadow: $shadow-md;
+}
+
+.modal-title {
+  font-size: $font-lg;
+  font-weight: bold;
+  color: $text-normal;
+  margin-bottom: 24rpx;
+  text-align: center;
+}
+
+.modal-body {
+  margin-bottom: 24rpx;
+}
+
+.modal-label {
+  font-size: $font-sm;
+  color: $text-light;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.modal-input {
+  width: 100%;
+  height: 80rpx;
+  border: 1rpx solid $primary-border;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: $font-base;
+  color: $text-normal;
+  background: $bg-white-transparent;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+}
+
+.modal-hint {
+  font-size: $font-xs;
+  color: $text-light;
+  display: block;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 20rpx;
+}
+
+.modal-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 12rpx;
+  font-size: $font-base;
+
+  &.cancel {
+    background: $bg-card;
+    color: $text-light;
+  }
+
+  &.confirm {
+    background: $primary;
+    color: $text-white;
+    font-weight: bold;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}

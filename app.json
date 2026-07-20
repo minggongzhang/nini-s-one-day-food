@@ -2,25 +2,38 @@
   "pages": [
     "pages/login/login",
     "pages/index/index",
+    "pages/index/boyfriend",
     "pages/food/index",
     "pages/orders/index",
     "pages/profile/index",
-    "pages/add-food/index"
-    ],
+    "pages/add-food/index",
+    "pages/food-manage/food-manage",
+    "pages/review-list/review-list",
+    "pages/edit-food/edit-food",
+    "pages/order-detail/order-detail",
+    "pages/address/address-edit",
+    "pages/address/address-list"
+  ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "妮妮的一日三餐",
     "navigationBarBackgroundColor": "#ffffff"
   },
   "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#ff6b6b",
+    "color": "#B0949A",
+    "selectedColor": "#FF8A9E",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "custom": true,
     "list": [
       {
         "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tabbar/home.png",
+        "selectedIconPath": "images/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/index/boyfriend",
         "text": "首页",
         "iconPath": "images/tabbar/home.png",
         "selectedIconPath": "images/tabbar/home-active.png"
@@ -42,6 +55,12 @@
         "text": "我的",
         "iconPath": "images/tabbar/profile.png",
         "selectedIconPath": "images/tabbar/profile-active.png"
+      },
+      {
+        "pagePath": "pages/food-manage/food-manage",
+        "text": "菜品管理",
+        "iconPath": "images/tabbar/food-admin.png",
+        "selectedIconPath": "images/tabbar/food-admin-active.png"
       }
     ]
   },

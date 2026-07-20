@@ -26,9 +26,8 @@ Page({
         loadingUserInfo: false,
       });
       setTimeout(() => {
-        wx.switchTab({
-          url: "/pages/index/index",
-        });
+        const homeUrl = (userInfo.role || '') === 'boyfriend' ? '/pages/index/boyfriend' : '/pages/index/index'
+        wx.switchTab({ url: homeUrl });
       }, 1500);
     } else {
       // 设置超时，3秒后自动关闭加载状态
@@ -244,6 +243,7 @@ Page({
       }
 
       const userData = registerRes.result.data || {};
+      const oldUserInfo = wx.getStorageSync('userInfo') || {}
 
       // 4. 存储到本地（统一使用 openid 小写）
       const userInfo = {
@@ -255,6 +255,8 @@ Page({
         inviteCode: userData.inviteCode || "",
         isBound: userData.isBound !== undefined ? userData.isBound : false,
         partnerOpenid: userData.partnerOpenid || "",
+        deliveryAddress: oldUserInfo.deliveryAddress || null,
+        addressList: oldUserInfo.addressList || [],
       };
 
       app.globalData.userInfo = userInfo;
@@ -270,7 +272,8 @@ Page({
       }
 
       setTimeout(() => {
-        wx.switchTab({ url: "/pages/index/index" });
+        const homeUrl = (userInfo.role || '') === 'boyfriend' ? '/pages/index/boyfriend' : '/pages/index/index'
+        wx.switchTab({ url: homeUrl });
       }, 1000);
     } catch (err) {
       wx.hideLoading();

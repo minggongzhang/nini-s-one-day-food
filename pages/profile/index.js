@@ -24,7 +24,8 @@ Page({
     showUnbindModal: false,
     unbinding: false,
     hasPendingOrders: false,
-    pendingOrdersCount: 0
+    pendingOrdersCount: 0,
+    deliveryAddress: null
   },
 
   onLoad() {
@@ -50,12 +51,17 @@ Page({
       const openid = userInfo.openid || userInfo.openId || ''
       this.setData({
         userInfo,
-        shortOpenId: openid ? openid.substring(0, 8) + '...' : ''
+        shortOpenId: openid ? openid.substring(0, 8) + '...' : '',
+        deliveryAddress: userInfo.deliveryAddress || null
       })
       app.globalData.userInfo = userInfo
       app.globalData.role = userInfo.role
       app.globalData.openid = openid
     }
+  },
+
+  goToAddress() {
+    wx.navigateTo({ url: '/pages/address/address-list' })
   },
 
   async loadStats() {

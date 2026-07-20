@@ -3,7 +3,10 @@
   "libVersion": "3.16.2",
   "cloudfunctionRoot": "cloudfunctions/",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      { "type": "folder", "value": ".trae-html-share-packages" },
+      { "type": "folder", "value": "boyfriend-homepage-prd" }
+    ],
     "include": []
   },
   "setting": {

@@ -1,0 +1,53 @@
+<!--pages/address/address-edit.wxml-->
+<view class="page-container">
+  <view class="form-card">
+
+    <view class="form-item">
+      <text class="form-label">收货人</text>
+      <input class="form-input" placeholder="请输入收货人姓名" value="{{ name }}" bindinput="onNameInput" maxlength="12" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">手机号</text>
+      <input class="form-input" type="number" placeholder="请输入手机号" value="{{ phone }}" bindinput="onPhoneInput" maxlength="11" />
+    </view>
+
+    <view class="form-item">
+      <text class="form-label">收货地址</text>
+      <view class="address-picker" bindtap="onChooseLocation">
+        <view class="address-picker-content" wx:if="{{ location.name }}">
+          <text class="address-name">{{ location.name }}</text>
+          <text class="address-detail">{{ location.address }}</text>
+        </view>
+        <view class="address-picker-placeholder" wx:else>
+          <image class="picker-icon" src="/images/emoji/location.png" />
+          <text>点击选择地址</text>
+        </view>
+        <text class="picker-arrow">›</text>
+      </view>
+    </view>
+
+    <view class="form-item" wx:if="{{ location.name }}">
+      <text class="form-label">门牌号（选填）</text>
+      <input class="form-input" placeholder="如：3号楼501室" value="{{ room }}" bindinput="onRoomInput" maxlength="30" />
+    </view>
+
+    <view class="form-item default-row" wx:if="{{ !isEdit || !isDefault }}">
+      <text class="form-label">设为默认地址</text>
+      <view class="switch-wrap" bindtap="onToggleDefault">
+        <view class="switch {{ isDefault ? 'on' : '' }}">
+          <view class="switch-dot"></view>
+        </view>
+      </view>
+    </view>
+
+  </view>
+
+  <view class="delete-section" wx:if="{{ isEdit }}">
+    <view class="delete-btn" bindtap="onDelete">删除此地址</view>
+  </view>
+
+  <button class="submit-btn" bindtap="onSave" loading="{{ saving }}" disabled="{{ saving }}">
+    {{ saving ? '保存中...' : '保存地址' }}
+  </button>
+</view>

@@ -35,8 +35,8 @@
 .notify-banner {
   display: flex;
   align-items: center;
-  background: rgba(255, 107, 107, 0.08);
-  border: 2rpx solid rgba(255, 107, 107, 0.2);
+  background: rgba(255, 138, 158, 0.08);
+  border: 2rpx solid rgba(255, 138, 158, 0.2);
   border-radius: $radius-sm;
   padding: 20rpx 28rpx;
   margin-bottom: 12rpx;
@@ -60,37 +60,37 @@
   }
 
   &:active {
-    background: rgba(255, 107, 107, 0.15);
+    background: rgba(255, 138, 158, 0.15);
   }
 
   &.enabled {
-    background: rgba(76, 175, 80, 0.08);
-    border-color: rgba(76, 175, 80, 0.2);
+    background: rgba(107, 197, 160, 0.08);
+    border-color: rgba(107, 197, 160, 0.2);
 
     .notify-text,
     .notify-arrow {
-      color: #4caf50;
+      color: $success;
     }
 
     &:active {
-      background: rgba(76, 175, 80, 0.15);
+      background: rgba(107, 197, 160, 0.15);
     }
   }
 
   &.polling {
-    background: rgba(33, 150, 243, 0.08);
-    border-color: rgba(33, 150, 243, 0.2);
+    background: rgba(184, 166, 217, 0.08);
+    border-color: rgba(184, 166, 217, 0.2);
 
     .notify-text {
-      color: #2196f3;
+      color: $secondary;
     }
 
     &.active {
-      background: rgba(76, 175, 80, 0.08);
-      border-color: rgba(76, 175, 80, 0.2);
+      background: rgba(107, 197, 160, 0.08);
+      border-color: rgba(107, 197, 160, 0.2);
 
       .notify-text {
-        color: #4caf50;
+        color: $success;
       }
     }
   }
@@ -208,28 +208,28 @@
     border-radius: 20rpx;
 
     &.status-pending {
-      background: rgba(255, 193, 7, 0.15);
-      color: #ffc107;
+      background: rgba(245, 168, 107, 0.15);
+      color: $warning;
     }
 
     &.status-accepted {
-      background: rgba(76, 175, 80, 0.15);
-      color: #4caf50;
+      background: rgba(107, 197, 160, 0.15);
+      color: $success;
     }
 
     &.status-preparing {
-      background: rgba(33, 150, 243, 0.15);
-      color: #2196f3;
+      background: rgba(184, 166, 217, 0.15);
+      color: $secondary;
     }
 
     &.status-completed {
-      background: rgba(158, 158, 158, 0.15);
-      color: #9e9e9e;
+      background: rgba(176, 148, 154, 0.15);
+      color: $text-light;
     }
 
     &.status-rejected {
-      background: rgba(244, 67, 54, 0.15);
-      color: #f44336;
+      background: rgba(240, 106, 122, 0.15);
+      color: $danger;
     }
   }
 }
@@ -308,7 +308,7 @@
         .item-tag {
           font-size: 18rpx;
           color: $primary;
-          background: rgba(255, 107, 107, 0.1);
+          background: rgba(255, 138, 158, 0.1);
           padding: 2rpx 10rpx;
           border-radius: 12rpx;
           margin-right: 6rpx;
@@ -356,6 +356,29 @@
   }
 }
 
+.order-address {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 0;
+  margin-top: 12rpx;
+  border-top: 1rpx dashed rgba(176, 148, 154, 0.2);
+
+  .address-icon-sm {
+    width: 28rpx;
+    height: 28rpx;
+    flex-shrink: 0;
+  }
+
+  .address-text {
+    font-size: $font-xs;
+    color: $text-secondary;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .order-footer {
   display: flex;
   justify-content: space-between;
@@ -393,36 +416,50 @@
 
   .action-btn {
     padding: 14rpx 36rpx;
-    border-radius: $radius-sm;
+    border-radius: 30rpx;
     font-size: $font-sm;
-    font-weight: bold;
+    font-weight: 600;
     text-align: center;
 
     &.accept {
       background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
       color: $text-white;
+      box-shadow: 0 4rpx 16rpx rgba(255, 138, 158, 0.35);
+
+      &:active {
+        background: #D95A6E;
+        box-shadow: 0 2rpx 8rpx rgba(255, 138, 158, 0.25);
+      }
     }
 
     &.prepare {
-      background: rgba(33, 150, 243, 0.1);
-      color: #2196f3;
-      border: 2rpx solid #2196f3;
+      background: rgba(184, 166, 217, 0.1);
+      color: $secondary;
+      border: 2rpx solid $secondary;
+
+      &:active {
+        background: rgba(184, 166, 217, 0.2);
+      }
     }
 
     &.complete {
-      background: rgba(76, 175, 80, 0.1);
-      color: #4caf50;
-      border: 2rpx solid #4caf50;
+      background: rgba(107, 197, 160, 0.1);
+      color: $success;
+      border: 2rpx solid $success;
+
+      &:active {
+        background: rgba(107, 197, 160, 0.2);
+      }
     }
 
     &.reject {
       background: $bg-white;
-      color: #f44336;
-      border: 2rpx solid #f44336;
-    }
+      color: $danger;
+      border: 2rpx solid $danger;
 
-    &:active {
-      transform: scale(0.96);
+      &:active {
+        background: rgba(240, 106, 122, 0.08);
+      }
     }
   }
 }
@@ -430,15 +467,15 @@
 .order-status-tip {
   margin-top: 16rpx;
   padding: 16rpx 24rpx;
-  background: rgba(255, 107, 107, 0.05);
+  background: rgba(255, 138, 158, 0.05);
   border-radius: $radius-sm;
   font-size: $font-sm;
   color: $text-primary;
   text-align: center;
 
   &.rejected {
-    background: rgba(244, 67, 54, 0.05);
-    color: #f44336;
+    background: rgba(240, 106, 122, 0.05);
+    color: $danger;
   }
 }
 

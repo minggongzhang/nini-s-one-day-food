@@ -1,0 +1,321 @@
+@import 'styles/variables.scss';
+
+page {
+  background: $bg-gradient;
+  min-height: 100vh;
+}
+
+.page-container {
+  padding-bottom: 40rpx;
+}
+
+// ========== 状态头部 ==========
+.status-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 60rpx 32rpx 48rpx;
+  color: #fff;
+
+  .status-emoji {
+    font-size: 64rpx;
+    margin-bottom: 12rpx;
+  }
+
+  .status-text {
+    font-size: $font-xl;
+    font-weight: bold;
+  }
+
+  .status-sub {
+    font-size: $font-sm;
+    opacity: 0.9;
+    margin-top: 8rpx;
+  }
+}
+
+// ========== 信息区块 ==========
+.info-section {
+  background: $bg-white-transparent;
+  margin: 20rpx 24rpx;
+  border-radius: $radius-md;
+  padding: 28rpx 32rpx;
+  border: 1rpx solid $primary-border;
+}
+
+.section-title {
+  font-size: $font-base;
+  font-weight: bold;
+  color: $text-normal;
+  margin-bottom: 20rpx;
+  padding-left: 16rpx;
+  border-left: 6rpx solid $primary;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+  border-bottom: 1rpx solid rgba(0, 0, 0, 0.04);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.info-label {
+  font-size: $font-sm;
+  color: $text-light;
+}
+
+.info-value {
+  font-size: $font-sm;
+  color: $text-normal;
+}
+
+.info-value-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.info-action {
+  font-size: $font-xs;
+  color: $primary;
+}
+
+// ========== 菜品明细 ==========
+.food-list-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.food-item-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+}
+
+.food-icon-box {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 16rpx;
+  background: rgba(255, 138, 158, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+
+  .food-img-box {
+    width: 100rpx;
+    height: 100rpx;
+  }
+
+  .food-emoji-box {
+    width: 56rpx;
+    height: 56rpx;
+  }
+}
+
+.food-detail-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.food-detail-name {
+  font-size: $font-base;
+  font-weight: 600;
+  color: $text-normal;
+  display: block;
+}
+
+.food-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  margin-top: 8rpx;
+
+  .detail-tag {
+    font-size: 20rpx;
+    background: $primary-light;
+    color: $primary-dark;
+    padding: 2rpx 14rpx;
+    border-radius: 12rpx;
+  }
+}
+
+.food-detail-req {
+  font-size: $font-xs;
+  color: $text-light;
+  margin-top: 6rpx;
+  display: block;
+}
+
+.food-detail-right {
+  text-align: right;
+  flex-shrink: 0;
+
+  .food-detail-price {
+    font-size: $font-base;
+    font-weight: bold;
+    color: $primary-dark;
+    display: block;
+  }
+
+  .food-detail-qty {
+    font-size: $font-xs;
+    color: $text-light;
+    display: block;
+    margin-top: 4rpx;
+  }
+}
+
+// ========== 备注 ==========
+.remark-box {
+  background: rgba(255, 138, 158, 0.06);
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  font-size: $font-sm;
+  color: $text-normal;
+  line-height: 1.6;
+}
+
+// ========== 下单人 ==========
+.user-info-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.user-avatar-lg {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  border: 2rpx solid $primary-border;
+}
+
+.user-avatar-placeholder {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary-light, #f0d0e0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+}
+
+.user-name-lg {
+  font-size: $font-lg;
+  font-weight: 600;
+  color: $text-normal;
+}
+
+// ========== 金额汇总 ==========
+.amount-section {
+  margin: 20rpx 24rpx;
+  background: $bg-white-transparent;
+  border-radius: $radius-md;
+  padding: 28rpx 32rpx;
+  border: 1rpx solid $primary-border;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rpx 0;
+
+  &.total {
+    margin-top: 12rpx;
+    padding-top: 16rpx;
+    border-top: 1rpx solid $primary-border;
+  }
+}
+
+.amount-label {
+  font-size: $font-sm;
+  color: $text-light;
+}
+
+.amount-value {
+  font-size: $font-sm;
+  color: $text-normal;
+}
+
+.amount-total {
+  font-size: $font-lg;
+  font-weight: bold;
+  color: $primary-dark;
+}
+
+// ========== 收货地址 ==========
+.address-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx;
+  background: rgba(255, 138, 158, 0.06);
+  border-radius: 12rpx;
+
+  &:active {
+    background: rgba(255, 138, 158, 0.1);
+  }
+}
+
+.address-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
+  flex: 1;
+}
+
+.address-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 4rpx;
+}
+
+.address-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  flex: 1;
+
+  .address-name {
+    font-size: $font-base;
+    font-weight: 600;
+    color: $text-normal;
+  }
+
+  .address-detail {
+    font-size: $font-sm;
+    color: $text-secondary;
+    line-height: 1.4;
+  }
+
+  .address-contact {
+    font-size: $font-xs;
+    color: $text-light;
+  }
+}
+
+.address-action {
+  font-size: $font-sm;
+  color: $primary;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+// ========== 加载 ==========
+.loading-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  font-size: $font-base;
+  color: $text-light;
+}

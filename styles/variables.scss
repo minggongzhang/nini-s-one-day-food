@@ -1,21 +1,34 @@
-$primary: #ff6b6b;
-$primary-dark: #ee5a5a;
-$primary-light: #ff8a80;
-$primary-border: #ffcdd2;
+// ========== 樱花粉主题 ==========
+$primary: #FF8A9E;          // 樱花粉 - 主要按钮、Tab 选中状态、重要元素
+$primary-dark: #E86A7E;     // 玫瑰粉 - 按钮按压/悬停状态、标题强调
+$primary-light: #FFE4E9;    // 柔雾粉 - 选中背景、卡片高亮、标签背景
+$primary-border: #D5C0C4;   // 浅粉灰 - 分割线、边框
 
-$bg-gradient: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+$secondary: #B8A6D9;        // 薰衣草紫 - 次要按钮、装饰元素
+$secondary-light: #F0EBF8;  // 淡紫雾 - 次要背景、分隔区域
+$accent: #D4A0A8;           // 玫瑰金 - 勋章、成就、特殊高亮
+
+$bg-page: #FFF7F8;          // 粉白 - 页面主背景
+$bg-card: #FDF0F2;          // 奶油粉 - 卡片背景、区块分割
+$bg-gradient: linear-gradient(135deg, #FFF7F8 0%, #FFE4E9 100%);
 $bg-white: #ffffff;
-$bg-white-transparent: rgba(255, 255, 255, 0.9);
+$bg-white-transparent: rgba(255, 255, 255, 0.92);
 
-$text-primary: #e57373;
-$text-secondary: #ff8a80;
-$text-normal: #666666;
-$text-light: #999999;
+$text-primary: #E86A7E;     // 玫瑰粉 - 重要文字
+$text-secondary: #B8A6D9;   // 薰衣草紫 - 次要强调
+$text-normal: #4A3639;      // 深褐粉 - 正文文字
+$text-light: #B0949A;       // 暖灰粉 - 次要文字、提示信息
+$text-placeholder: #D5C0C4; // 浅粉灰 - 占位文字
 $text-white: #ffffff;
 
-$shadow-sm: 0 6rpx 20rpx rgba(252, 182, 159, 0.3);
-$shadow-md: 0 10rpx 30rpx rgba(252, 182, 159, 0.5);
-$shadow-btn: 0 10rpx 30rpx rgba(238, 90, 90, 0.4);
+$success: #6BC5A0;          // 薄荷绿 - 已完成、成功状态
+$warning: #F5A86B;          // 蜜桃橙 - 制作中、进行中状态
+$danger: #F06A7A;           // 珊瑚粉 - 待处理、紧急状态
+
+$shadow-sm: 0 6rpx 20rpx rgba(255, 138, 158, 0.15);
+$shadow-md: 0 10rpx 30rpx rgba(255, 138, 158, 0.25);
+$shadow-btn: 0 10rpx 30rpx rgba(232, 106, 126, 0.35);
+
 
 $radius-sm: 8rpx;
 $radius-md: 24rpx;
@@ -27,3 +40,27 @@ $font-sm: 24rpx;
 $font-base: 28rpx;
 $font-lg: 32rpx;
 $font-xl: 48rpx;
+
+// ========== 男友端变量别名（兼容已有页面）==========
+$bf-primary: $primary;
+$bf-primary-dark: $primary-dark;
+$bf-primary-light: $primary-light;
+$bf-primary-border: $primary-border;
+
+$bf-bg-gradient: $bg-gradient;
+$bf-bg-white-transparent: $bg-white-transparent;
+$bf-bg-section: $bg-card;
+
+$bf-text-primary: $text-normal;
+$bf-text-secondary: $text-light;
+$bf-text-light: $text-placeholder;
+$bf-text-accent: $primary-dark;
+
+$bf-gold: $accent;
+$bf-success: $success;
+$bf-warning: $warning;
+$bf-danger: $danger;
+
+$bf-shadow-sm: $shadow-sm;
+$bf-shadow-md: $shadow-md;
+$bf-shadow-btn: $shadow-btn;

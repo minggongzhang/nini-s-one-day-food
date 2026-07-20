@@ -1,0 +1,9 @@
+{
+  "name": "manageFood",
+  "version": "1.0.0",
+  "description": "菜品管理：审核、上架、下架、编辑、删除",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

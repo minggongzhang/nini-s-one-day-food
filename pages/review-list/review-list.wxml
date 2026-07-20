@@ -1,0 +1,61 @@
+<view class="page-container">
+
+  <view class="food-list">
+    <view class="food-card" wx:for="{{ foods }}" wx:key="_id">
+      <view class="food-main">
+        <view class="food-icon-wrap">
+          <image wx:if="{{ item.imageUrl }}" src="{{ item.imageUrl }}" mode="aspectFill" class="food-img" />
+          <image wx:elif="{{ item.icon && item.icon.startsWith('/') }}" src="{{ item.icon }}" mode="aspectFit" class="food-emoji" />
+          <text wx:else class="food-emoji-text">{{ item.name[0] }}</text>
+        </view>
+        <view class="food-info">
+          <text class="food-name">{{ item.name }}</text>
+          <text class="food-category">{{ item.category }}</text>
+          <text class="food-desc" wx:if="{{ item.description }}">{{ item.description }}</text>
+          <view class="food-tags" wx:if="{{ item.tasteTags.length > 0 }}">
+            <text class="tag" wx:for="{{ item.tasteTags }}" wx:key="*this">{{ item }}</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="food-actions">
+        <view class="action-btn review-btn" bindtap="onReviewTap" data-id="{{ item._id }}">
+          <image src="/images/admin/shelve.png" class="action-icon" />
+          <text>审核通过</text>
+        </view>
+        <view class="action-btn reject-btn" bindtap="onRejectTap" data-id="{{ item._id }}">
+          <image src="/images/admin/unshelve.png" class="action-icon" />
+          <text>拒绝</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="empty-state" wx:if="{{ !loading && foods.length === 0 }}">
+      <text class="empty-text">暂无待审核菜品</text>
+    </view>
+  </view>
+
+  <!-- 审核弹窗 -->
+  <view class="modal-mask" wx:if="{{ showReviewModal }}" bindtap="onReviewCancel">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-title">审核菜品：{{ reviewItem.name }}</view>
+      <view class="modal-body">
+        <text class="modal-label">设定价格（妮妮币）</text>
+        <input
+          class="modal-input"
+          type="digit"
+          placeholder="请输入价格"
+          value="{{ reviewPrice }}"
+          bindinput="onReviewPriceInput"
+          focus="{{ showReviewModal }}"
+        />
+        <text class="modal-hint">审核通过后菜品将自动上架</text>
+      </view>
+      <view class="modal-footer">
+        <view class="modal-btn cancel" bindtap="onReviewCancel">取消</view>
+        <view class="modal-btn confirm" bindtap="onReviewConfirm">确认通过</view>
+      </view>
+    </view>
+  </view>
+
+</view>

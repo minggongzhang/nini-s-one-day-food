@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 page {
-  background: $bg-gradient;
+  background: $bg-page;
   min-height: 100vh;
   /* 不要设置自定义 font-family，否则真机上 Emoji 图标会显示为方框 */
   /* 系统默认字体已自带 Emoji 渲染支持 */
@@ -14,24 +14,132 @@ page {
   box-sizing: border-box;
 }
 
+// ========== 主按钮 Primary ==========
 .btn-primary {
   background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
   color: $text-white;
-  border-radius: $radius-lg;
   border: none;
-  box-shadow: $shadow-btn;
+  border-radius: 30rpx;
+  padding: 24rpx 64rpx;
+  font-weight: 600;
+  box-shadow: 0 8rpx 32rpx rgba(255, 138, 158, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
 
   &::after {
     display: none;
   }
 
   &:active {
-    transform: scale(0.98);
-    box-shadow: 0 6rpx 20rpx rgba(238, 90, 90, 0.3);
+    background: #D95A6E;
+    box-shadow: 0 4rpx 16rpx rgba(255, 138, 158, 0.25);
+    transform: scale(0.96);
+  }
+
+  &[disabled] {
+    background: #FFD9DF;
+    color: $text-placeholder;
+    box-shadow: none;
+  }
+}
+
+// ========== 次要按钮 Secondary ==========
+.btn-secondary {
+  background: transparent;
+  color: $primary;
+  border: 3rpx solid $primary;
+  border-radius: 30rpx;
+  padding: 24rpx 64rpx;
+  font-weight: 500;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    background: $primary-light;
+    border-color: $primary-dark;
+    color: $primary-dark;
+    transform: scale(0.96);
+  }
+
+  &[disabled] {
+    color: $text-placeholder;
+    border-color: $text-placeholder;
+  }
+}
+
+// ========== 文本按钮 Text ==========
+.btn-text {
+  background: transparent;
+  color: $primary;
+  border: none;
+  padding: 16rpx 32rpx;
+  font-weight: 500;
+  font-size: $font-sm;
+
+  &:active {
+    color: $primary-dark;
+    opacity: 0.7;
+  }
+}
+
+// ========== 功能色按钮 ==========
+.btn-success {
+  background: $success;
+  color: $text-white;
+  box-shadow: 0 8rpx 32rpx rgba(107, 197, 160, 0.30);
+  border: none;
+  border-radius: 30rpx;
+  padding: 24rpx 64rpx;
+  font-weight: 600;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    background: #56B08A;
+    transform: scale(0.96);
+  }
+}
+
+.btn-warning {
+  background: $warning;
+  color: $text-white;
+  box-shadow: 0 8rpx 32rpx rgba(245, 168, 107, 0.30);
+  border: none;
+  border-radius: 30rpx;
+  padding: 24rpx 64rpx;
+  font-weight: 600;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    background: #E8934A;
+    transform: scale(0.96);
+  }
+}
+
+.btn-danger {
+  background: $danger;
+  color: $text-white;
+  box-shadow: 0 8rpx 32rpx rgba(240, 106, 122, 0.30);
+  border: none;
+  border-radius: 30rpx;
+  padding: 24rpx 64rpx;
+  font-weight: 600;
+
+  &::after {
+    display: none;
+  }
+
+  &:active {
+    background: #D95A6A;
+    transform: scale(0.96);
   }
 }
 

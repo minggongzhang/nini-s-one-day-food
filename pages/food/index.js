@@ -36,11 +36,16 @@ Page({
   },
 
   onShow() {
+    const userInfo = wx.getStorageSync("userInfo");
+    if (userInfo && userInfo.role === "boyfriend") {
+      wx.switchTab({ url: "/pages/orders/index" });
+      return;
+    }
+
     this.loadCart();
     this.loadUserBalance();
 
     // 刷新昵称（用户可能在个人页修改了昵称）
-    const userInfo = wx.getStorageSync("userInfo");
     if (
       userInfo &&
       userInfo.nickname &&
@@ -117,6 +122,7 @@ Page({
         name: "getFoods",
         data: {
           category,
+          role: "girlfriend",
         },
       });
       console.log("getFoods response:", res);
@@ -238,6 +244,49 @@ Page({
       return;
     }
 
+    // 检查收货地址
+    const addressList = userInfo.addressList || []
+    const deliveryAddress = userInfo.deliveryAddress || null
+    if (addressList.length === 0 && !deliveryAddress) {
+      wx.showModal({
+        title: "还未设置收货地址",
+        content: "设置收货地址后男朋友才知道送到哪哦~",
+        confirmText: "去设置",
+        cancelText: "先不下单",
+        success: (r) => {
+          if (r.confirm) {
+            wx.navigateTo({ url: "/pages/address/address-list" })
+          }
+        }
+      })
+      return
+    }
+
+    // 如果有多个地址，弹出选择
+    if (addressList.length > 1) {
+      const names = addressList.map((a, i) => {
+        const defaultTag = a.isDefault ? ' (默认)' : ''
+        return `${i + 1}. ${a.locationName}${a.room ? ' ' + a.room : ''}${defaultTag}`
+      })
+      wx.showActionSheet({
+        itemList: names,
+        success: (res) => {
+          this.setData({ selectedAddress: addressList[res.tapIndex] })
+          this.doCheckout(addressList[res.tapIndex])
+        }
+      })
+      return
+    }
+
+    // 只有一个地址，直接用
+    this.setData({ selectedAddress: deliveryAddress || addressList[0] })
+    this.doCheckout(deliveryAddress || addressList[0])
+  },
+
+  async doCheckout(deliveryAddress) {
+    const { cart, cartTotal } = this.data;
+    const userInfo = wx.getStorageSync("userInfo");
+
     // 1. 先请求订阅授权（必须在用户点击后同步调用）
     try {
       await wx.requestSubscribeMessage({
@@ -265,6 +314,7 @@ Page({
               items: cart,
               totalAmount: cartTotal,
               remark: "",
+              address: deliveryAddress,
             },
           });
 

@@ -6,7 +6,7 @@
   right: 0;
   z-index: 999;
   background: #ffffff;
-  border-top: 1rpx solid #f0f0f0;
+  border-top: 1rpx solid #D5C0C4;
   box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
 }
 
@@ -35,11 +35,11 @@
 .tab-text {
   font-size: 20rpx;
   line-height: 1;
-  color: #999999;
+  color: #B0949A;
 }
 
 .tab-bar-item.active .tab-text {
-  color: #ff6b6b;
+  color: #FF8A9E;
 }
 
 .safe-area-bottom {

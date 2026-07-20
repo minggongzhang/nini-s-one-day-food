@@ -106,6 +106,17 @@
   box-sizing: border-box;
 }
 
+.custom-category-add {
+  height: 60rpx;
+  line-height: 60rpx;
+  padding: 0 28rpx;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border-radius: 30rpx;
+  color: $text-white;
+  font-size: $font-sm;
+  font-weight: 600;
+}
+
 .custom-tag-row {
   display: flex;
   align-items: center;
@@ -129,9 +140,10 @@
   line-height: 60rpx;
   padding: 0 28rpx;
   background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
-  border-radius: $radius-sm;
+  border-radius: 30rpx;
   color: $text-white;
   font-size: $font-sm;
+  font-weight: 600;
 }
 
 .custom-tag-toggle {
@@ -215,7 +227,7 @@
   .star {
     font-size: 48rpx;
     margin-right: 12rpx;
-    color: #ddd;
+    color: $text-placeholder;
 
     &.filled {
       color: $primary;
@@ -236,21 +248,28 @@
   right: 32rpx;
   height: 96rpx;
   background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
-  border-radius: $radius-md;
+  border-radius: 30rpx;
   color: $text-white;
   font-size: $font-lg;
-  font-weight: bold;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: $shadow-btn;
+  box-shadow: 0 8rpx 32rpx rgba(255, 138, 158, 0.35);
   border: none;
 
   &::after {
     display: none;
   }
 
+  &:active {
+    background: #D95A6E;
+    box-shadow: 0 4rpx 16rpx rgba(255, 138, 158, 0.25);
+  }
+
   &[disabled] {
-    opacity: 0.6;
+    background: #FFD9DF;
+    color: $text-placeholder;
+    box-shadow: none;
   }
 }

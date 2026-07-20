@@ -1,7 +1,7 @@
 // custom-tab-bar/index.js
 const app = getApp()
 
-const ALL_TABS = [
+const GIRLFRIEND_TABS = [
   {
     pagePath: '/pages/index/index',
     text: '首页',
@@ -29,17 +29,38 @@ const ALL_TABS = [
 ]
 
 const BOYFRIEND_TABS = [
-  ALL_TABS[0],
-  ALL_TABS[2],
-  ALL_TABS[3]
+  {
+    pagePath: '/pages/index/boyfriend',
+    text: '首页',
+    iconPath: '/images/tabbar/home.png',
+    selectedIconPath: '/images/tabbar/home-active.png'
+  },
+  {
+    pagePath: '/pages/orders/index',
+    text: '订单',
+    iconPath: '/images/tabbar/orders.png',
+    selectedIconPath: '/images/tabbar/orders-active.png'
+  },
+  {
+    pagePath: '/pages/food-manage/food-manage',
+    text: '菜品管理',
+    iconPath: '/images/tabbar/food-admin.png',
+    selectedIconPath: '/images/tabbar/food-admin-active.png'
+  },
+  {
+    pagePath: '/pages/profile/index',
+    text: '我的',
+    iconPath: '/images/tabbar/profile.png',
+    selectedIconPath: '/images/tabbar/profile-active.png'
+  }
 ]
 
 Component({
   data: {
     visible: false,
     selected: 0,
-    color: '#999999',
-    selectedColor: '#ff6b6b',
+    color: '#B0949A',
+    selectedColor: '#FF8A9E',
     role: '',
     list: []
   },
@@ -54,12 +75,14 @@ Component({
     refreshTabs() {
       const userInfo = wx.getStorageSync('userInfo') || {}
       const role = userInfo.role || ''
-      const list = role === 'boyfriend' ? BOYFRIEND_TABS : ALL_TABS
+      const isBoyfriend = role === 'boyfriend'
+      const list = isBoyfriend ? BOYFRIEND_TABS : GIRLFRIEND_TABS
 
       this.setData({
         role,
         list,
-        visible: !!role
+        visible: !!role,
+        selectedColor: '#FF8A9E'
       })
     },
 

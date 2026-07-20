@@ -284,6 +284,11 @@ Page({
     this.fetchOrders();
   },
 
+  onOrderTap(e) {
+    const id = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: '/pages/order-detail/order-detail?id=' + id });
+  },
+
   onHandleOrder(e) {
     const { id, action } = e.currentTarget.dataset;
 

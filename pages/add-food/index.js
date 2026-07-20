@@ -52,13 +52,17 @@ Page({
     cravingLevel: 3,
     cravingText: '挺想吃的',
     price: '',
-    submitting: false
+    submitting: false,
+    isBoyfriend: false
   },
 
   onLoad() {
     const userInfo = wx.getStorageSync('userInfo')
     const nickname = (userInfo && userInfo.nickname) || '我'
-    wx.setNavigationBarTitle({ title: `${nickname}想吃...` })
+    const isBoyfriend = userInfo && userInfo.role === 'boyfriend'
+    wx.setNavigationBarTitle({ title: isBoyfriend ? '添加菜品' : `${nickname}想吃...` })
+    this.setData({ isBoyfriend })
+    this.onCustomCategoryInput = this.debounce(this.handleCustomCategoryInput, 2000)
   },
 
   onNameInput(e) {
@@ -77,20 +81,56 @@ Page({
   },
 
   onToggleCustomCategory() {
-    const willShow = !this.data.showCustomCategory
     this.setData({
-      showCustomCategory: willShow,
-      customCategoryFocus: willShow,
-      selectedCategory: ''
+      showCustomCategory: !this.data.showCustomCategory
     })
     this._customCategoryValue = ''
   },
 
-  onCustomCategoryInput(e) {
-    const val = e.detail.value
-    this._customCategoryValue = val
-    // 实时同步到 selectedCategory，用户输入的同时就能选中
-    this.setData({ selectedCategory: val.trim() })
+  onToggleCustomCategory() {
+    const willShow = !this.data.showCustomCategory
+    this.setData({
+      showCustomCategory: willShow,
+      customCategoryFocus: willShow
+    })
+  },
+
+  debounce(fn, delay) {
+    let timer = null;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        fn.apply(this, args);
+      }, delay);
+    };
+  },
+
+  // 将处理逻辑用防抖包裹，供 WXML 绑定
+  onCustomCategoryInput: null,
+
+  handleCustomCategoryInput(e) {
+    console.log(e);
+    this.setData({ 
+      selectedCategory: e.detail.value,
+    })
+  },
+
+  onAddCustomCategory(){
+    if(!this.data.selectedCategory.trim()){
+      wx.showToast({ title: '请输入分类名', icon: 'none' })
+      return
+    }
+    if (this.data.selectedCategory.length > 8) {
+      wx.showToast({ title: '分类名最多8个字', icon: 'none' })
+      return
+    }
+    const newCategoryItem = { name: this.data.selectedCategory, icon: '', iconPath: '/images/emoji/pencil.png' }
+    const newCategories = [...this.data.categoryOptions,newCategoryItem]
+    this.setData({
+      categoryOptions: newCategories,
+      showCustomCategory: false,
+      customCategoryFocus: false
+    })
   },
 
   // ========== 口味标签 ==========
@@ -214,7 +254,7 @@ Page({
 
   // ========== 提交 ==========
   async onSubmit() {
-    const { name, selectedCategory, requirements, cravingLevel, price, tasteTags } = this.data
+    const { name, selectedCategory, requirements, cravingLevel, tasteTags } = this.data
 
     if (!name.trim()) {
       wx.showToast({ title: '请输入菜品名称', icon: 'none' })
@@ -243,7 +283,6 @@ Page({
       const selectedTags = tasteTags.filter(t => t.checked).map(t => t.name)
       const categoryStr = selectedCategory.trim()
       const icon = DEFAULT_EMOJIS[categoryStr] || '/images/emoji/plate.png'
-      const priceValue = price ? parseFloat(price) : 0
 
       const res = await wx.cloud.callFunction({
         name: 'addFood',
@@ -252,7 +291,7 @@ Page({
           category: categoryStr,
           icon,
           description: requirements.trim(),
-          price: priceValue,
+          price: this.data.isBoyfriend ? (parseFloat(this.data.price) || 0) : 0,
           tasteTags: selectedTags,
           requirements: requirements.trim(),
           imageUrl: imageFileIDs[0] || '',
@@ -263,7 +302,11 @@ Page({
       })
 
       if (res.result && res.result.success) {
-        wx.showToast({ title: '添加成功！', icon: 'success' })
+        if (res.result.needReview) {
+          wx.showToast({ title: '已提交审核！', icon: 'success' })
+        } else {
+          wx.showToast({ title: '添加成功！', icon: 'success' })
+        }
         setTimeout(() => {
           wx.navigateBack()
         }, 1200)

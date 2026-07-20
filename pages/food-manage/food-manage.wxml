@@ -1,0 +1,124 @@
+<view class="page-container">
+
+  <!-- 待审核入口卡片 -->
+  <view class="pending-card" bindtap="goToReviewList" wx:if="{{ pendingCount > 0 }}">
+    <view class="pending-left">
+      <image src="/images/admin/shelve.png" class="pending-icon" />
+      <text class="pending-text">有 {{ pendingCount }} 个菜品等待审核</text>
+    </view>
+    <text class="pending-arrow">></text>
+  </view>
+
+  <!-- 分类 Tabs -->
+  <scroll-view class="category-tabs" scroll-x enable-flex>
+    <view
+      wx:for="{{ categories }}"
+      wx:key="*this"
+      class="category-item {{ activeCategory === item ? 'active' : '' }}"
+      data-category="{{ item }}"
+      bindtap="onCategoryTap"
+    >
+      <text>{{ item }}</text>
+    </view>
+  </scroll-view>
+
+  <!-- 菜品列表 -->
+  <view class="food-list">
+    <view class="food-card" wx:for="{{ foods }}" wx:key="_id">
+      <view class="food-main">
+        <view class="food-icon-wrap">
+          <image wx:if="{{ item.imageUrl }}" src="{{ item.imageUrl }}" mode="aspectFill" class="food-img" />
+          <image wx:elif="{{ item.icon && item.icon.startsWith('/') }}" src="{{ item.icon }}" mode="aspectFit" class="food-emoji" />
+          <text wx:else class="food-emoji-text">{{ item.name[0] }}</text>
+        </view>
+        <view class="food-info">
+          <view class="food-name-row">
+            <text class="food-name">{{ item.name }}</text>
+            <text class="food-status" style="color:{{ statusColor[item.status] }}">{{ statusMap[item.status] }}</text>
+          </view>
+          <text class="food-price">{{ item.price > 0 ? '¥' + item.price : '待定价' }}</text>
+          <text class="food-desc" wx:if="{{ item.description }}">{{ item.description }}</text>
+          <text class="food-shelve" wx:if="{{ item.status === 'approved' }}">{{ item.isShelved ? '已上架' : '已下架' }}</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮区 -->
+      <view class="food-actions">
+        <!-- 待审核状态 -->
+        <block wx:if="{{ item.status === 'pending' }}">
+          <view class="action-btn review-btn" bindtap="onReviewTap" data-id="{{ item._id }}">
+            <image src="/images/admin/shelve.png" class="action-icon" />
+            <text>审核通过</text>
+          </view>
+          <view class="action-btn reject-btn" bindtap="onRejectTap" data-id="{{ item._id }}">
+            <image src="/images/admin/unshelve.png" class="action-icon" />
+            <text>拒绝</text>
+          </view>
+        </block>
+
+        <!-- 已通过状态 -->
+        <block wx:if="{{ item.status === 'approved' }}">
+          <view class="action-btn" bindtap="onToggleShelve" data-id="{{ item._id }}">
+            <image src="/images/admin/{{ item.isShelved ? 'unshelve' : 'shelve' }}.png" class="action-icon" />
+            <text>{{ item.isShelved ? '下架' : '上架' }}</text>
+          </view>
+          <view class="action-btn" bindtap="onEditTap" data-id="{{ item._id }}">
+            <image src="/images/admin/edit.png" class="action-icon" />
+            <text>编辑</text>
+          </view>
+          <view class="action-btn delete-btn" bindtap="onDeleteTap" data-id="{{ item._id }}">
+            <image src="/images/admin/delete.png" class="action-icon" />
+            <text>删除</text>
+          </view>
+        </block>
+
+        <!-- 已拒绝状态 -->
+        <block wx:if="{{ item.status === 'rejected' }}">
+          <view class="action-btn review-btn" bindtap="onReviewTap" data-id="{{ item._id }}">
+            <image src="/images/admin/shelve.png" class="action-icon" />
+            <text>重新审核</text>
+          </view>
+          <view class="action-btn delete-btn" bindtap="onDeleteTap" data-id="{{ item._id }}">
+            <image src="/images/admin/delete.png" class="action-icon" />
+            <text>删除</text>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 空态 -->
+    <view class="empty-state" wx:if="{{ !loading && foods.length === 0 }}">
+      <text class="empty-text">暂无菜品</text>
+    </view>
+  </view>
+
+  <!-- 新增按钮 -->
+  <view class="fab-btn" bindtap="onAddTap">
+    <text class="fab-icon">+</text>
+    <text class="fab-text">新增菜品</text>
+  </view>
+
+  <!-- 审核弹窗 -->
+  <view class="modal-mask" wx:if="{{ showReviewModal }}" bindtap="onReviewCancel">
+    <view class="modal-content" catchtap="preventBubble">
+      <view class="modal-title">审核菜品：{{ reviewItem.name }}</view>
+      <view class="modal-body">
+        <text class="modal-label">设定价格（妮妮币）</text>
+        <input
+          class="modal-input"
+          type="digit"
+          placeholder="请输入价格"
+          value="{{ reviewPrice }}"
+          bindinput="onReviewPriceInput"
+          focus="{{ showReviewModal }}"
+        />
+        <text class="modal-hint">审核通过后菜品将自动上架</text>
+      </view>
+      <view class="modal-footer">
+        <view class="modal-btn cancel" bindtap="onReviewCancel">取消</view>
+        <view class="modal-btn confirm" bindtap="onReviewConfirm">确认通过</view>
+      </view>
+    </view>
+  </view>
+
+</view>
